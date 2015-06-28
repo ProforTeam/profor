@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding="utf-8"?>
+
+<toc version="2.0">
+    <!-- First tocitem specifies top level in Help browser Contents pane -->
+    <!-- This can be a roadmap page, as shown below, or a content page -->
+    <tocitem target="./html/mytoolbox_product_page.html">PROFOR Toolbox
+        <!-- Nest tocitems to create hierarchical entries in  Contents-->
+        <!-- To include icons, use the following syntax for tocitems: -->
+        <!-- <tocitem target="foo.html" image="HelpIcon.NAME"> -->
+        <!-- Title-of-Section </tocitem> -->
+        <!-- where NAME is one of the following (use capital letters): -->
+        <!-- FUNCTION, USER_GUIDE, EXAMPLES, BLOCK, GETTING_STARTED, -->
+        <!-- DEMOS, RELEASE_NOTES --> 
+        <!-- Icon images used for these entries are also stored in -->
+        <!-- matlabroot/toolbox/matlab/icons -->
+        <!-- A Getting Started Guide usually comes first -->
+        <tocitem target="./html/mytbx_gs_top.html" >
+            Getting Started with the PROFOR Toolbox
+            <tocitem target="./html/mytbx_reqts_example.html">System Requirements
+            </tocitem>
+            <tocitem target="./html/mytbx_features_example.html">Features of the DEMO Version of PROFOR
+            </tocitem>
+        </tocitem>
+        <tocitem target="./html/mytbx_PROFOR_overview.html" >
+            PROFOR Overview
+            <tocitem target="./html/mytbx_profor_details.html">Profor Class Details
+            </tocitem>
+            <tocitem target="./html/combination_overview.html" >
+            Profor Combination Details
+            </tocitem> 
+        </tocitem>          
+        <!-- User Guide comes next -->
+        <tocitem target="./html/mytbx_ug_intro.html" 
+                 image="HelpIcon.USER_GUIDE">PROFOR User Guide
+            <tocitem target="./html/mytbx_ch_1.html">Set Up PROFOR
+            </tocitem>
+            <tocitem target="./html/mytbx_ch_2.html">Process Data
+                <tocitem target="./htmlexamples/html/usingTsdataExample.html">Read in Data and Use Tsdata Instances
+                </tocitem>                        
+                <tocitem target="./htmlexamples/html/transformsTsdataExample.html">Transform Data
+                </tocitem>  
+               <tocitem target="./htmlexamples/html/external_data.html">Import External Forecasts: Analytic and Empiric
+                </tocitem>
+            </tocitem>
+            <tocitem target="./html/mytbx_ch_3.html">Learn About Models, Structures and Data 
+                <tocitem target="./htmlexamples/html/estimationNamingConventionsExample.html">Name Conventions, Models and Structures
+                </tocitem>   
+                <tocitem target="./html/loading_real_time_data_from_csv.html">Real-time Data Structures
+                </tocitem> 
+                <tocitem target="./htmlexamples/html/external_data.html">External Forecasts: Analytic and Empiric
+                </tocitem> 
+            </tocitem>
+            <tocitem target="./html/mytbx_ch_4.html">Estimate Models and Forecast
+                <tocitem target="./htmlexamples/html/runningModelsExample.html">VAR Example  </tocitem> 
+                <tocitem target="./htmlexamples/html/runningModelsExample2.html">BVAR Example  </tocitem>
+            </tocitem>
+            <tocitem target="./html/mytbx_ch_5.html">Running Profor
+                <tocitem target="./htmlexamples/html/proforExample.html"> Real-time Data Example
+                    <tocitem target="./htmlexamples/html/constructAndStoreBatchFilesExample.html">Batch Files for Real-time Data Example
+                    </tocitem>                
+                </tocitem>            
+                <tocitem target="./htmlexamples/html/proforSimulatedDataExample.html">Rolling Window Example 
+                    <tocitem target="./htmlexamples/html/constructAndStoreBatchFilesSimulatedDataExample.html">Batch Files for Rolling Window Example
+                    </tocitem>                
+                </tocitem>            
+                <tocitem target="./htmlexamples/html/proforOnlyEvaluationExample.html">Work with Ragged Edge Data
+                </tocitem>            
+                <tocitem target="./htmlexamples/html/bankOfEnglandExample.html">Import Analytic External Forecasts: Bank of England Example
+                </tocitem>            
+                <tocitem target="./htmlexamples/html/runFasterExample.html">Example with Reduced Run Time
+                 </tocitem>
+            </tocitem>  
+            <tocitem target="./html/mytbx_ch_6.html">Analyze Results with a Report
+                <tocitem target="./htmlexamples/html/makingReportsExample.html">Report Example with Many Forecast Evaluation Tools
+                </tocitem>                                                                      
+            </tocitem> 
+            <tocitem target="./html/mytbx_ch_7.html">Subtle Considerations
+            </tocitem>
+        </tocitem>        
+    </tocitem>
+</toc>

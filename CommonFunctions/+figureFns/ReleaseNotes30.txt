@@ -1,0 +1,10 @@
+Changes since last version:
+   Eliminated JPrinterWorks.  Using native Java print method on JTextArea.
+   Eliminated separate PageSetup dialog.  Now integrated into Print dialog.
+   Window now scrolls to the bottom of the window.
+   Added default font (Courier New 12pt).
+   Added rudimentary API to programmatically modify the window.
+   Fixed bug which did not return the count of chars written by normal fprintf.
+   Fixed bug with caused a Java Exception when attempting to cut text from an empty window.
+   Added find and findnext functions.
+   Added standard Windows keyboard shortcuts for most menu items.

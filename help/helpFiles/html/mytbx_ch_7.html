@@ -1,0 +1,345 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Subtle Considerations</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-02-01"><meta name="DC.source" content="mytbx_ch_7.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Subtle Considerations</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Subtle considerations</a></li><li><a href="#2">dataSettings</a></li><li><a href="#3">xDomain</a></li><li><a href="#4">Parallel computing</a></li><li><a href="#5">Setting samples</a></li></ul></div><h2>Subtle considerations<a name="1"></a></h2><p>Some features of the toolbox that are somewhat subtle, but worth knowing.</p><h2>dataSettings<a name="2"></a></h2><p>In the batch objects for the different models there is a property called dataSettings. The dataSettings property for the individual models defines which transformations will be used for that particular model</p><p>Likewise, the dataSettings property for the combination batch file defines which transformations will be used in the combination, i.e., when evaluating the individual models and constructing a combined forecast.</p><p>Thus, the dataSettings for the individual models and the combination can differ.</p><p>The dataSettings property does not need to be defined. Then, its state is default, and no transformations will be performed on the data when running models and combination. This means that the researcher can only report the forecasts in the same form as the raw data read into the models.</p><p>When the dataSetting property is not at its default, PROFOR will transfrom the data in "real time" according to this ordering:</p><p>sesAdjData; convertData; transformData; trendAdjData;</p><p>After the second transformation: convertData, the Tsdata object is saved. Why? To be used when level information required to construct forecasting objects. The file is saved as: save(fullfile(proforStartup.pfRoot,'temp',obj.links.tag,'historyDataForForecasting.mat'), 'E');</p><h2>xDomain<a name="3"></a></h2><p>The xDomain setting in densityScoreSettings defines the manner in which the densities are approximated. PROFOR uses the built-in MATLAB ksdensity function to do this.  If the researcher does not specify an xDomain, then PROFOR automatically defines one. The default xDomainLength is 500.</p><p>As the number of grid points increases (i.e., a finer grid), the accuracy of the approximation improves.  If the start and end points are too close, the pdfs will not integrate to 1. Setting the start and end far apart is safer, but at the cost of increased computation time.</p><h2>Parallel computing<a name="4"></a></h2><p>The PROFOR toolbox uses the parfor function from the built-in Matlab Parallel Computing Toolbox. This speeds up computations when looping across individual models, when controlling, loading and evaluating individual models and when combining forecasts.  Absent the Parallel computing toolbox, the run time on many PROFOR computations increases, but it still runs. By default, the proforStartup() command starts a number of local workers in MATLAB. The number of workers started depends on the researcher's MATLAB and computer settings.</p><p>For example, by running the command, the researcher tells PROFOR to utilize 2 workers:</p><pre class="codeinput">nWorkers = 2;
+proforStartup(nWorkers)
+</pre><pre class="codeoutput">Parallel pool using the 'local' profile is shutting down.
+Starting parallel pool (parpool) using the 'local' profile ... connected to 2 workers.
+
+ans = 
+
+ Pool with properties: 
+
+            Connected: true
+           NumWorkers: 2
+              Cluster: local
+        AttachedFiles: {}
+          IdleTimeout: 30 minute(s) (30 minutes remaining)
+          SpmdEnabled: true
+
+
+ans = 
+
+     
+     PROFOR Toolbox version beta 1.0
+     Copyright (C) 2014  PROFOR Team
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+     
+</pre><h2>Setting samples<a name="5"></a></h2><p>Sample commands perform a number of functions within PROFOR.  The exact meaning of a sample commmand depends on where the command is given. Consider the use of the sample command for parameter estimation. Suppose, the researcher specifies the sample in the batch for the individual model. For example, using an AR model:</p><pre class="codeinput">b               = Batchvar;
+b.selectionY    = {<span class="string">'ironP'</span>};
+b.sample        = <span class="string">'2007.01 - 2014.03'</span>;
+</pre><p>The first date is the first observation included for parameter estimation, here 2007.01, and the second date is the last observation included for parameter estimation, in this case 2014.03.</p><p>The Tsdata object will override this sample for paramerter estimation iff there are insufficient observations in that instance.  For example, suppose the researcher first specifies the variable `ironP' as follows:</p><pre class="codeinput">ironP = [124 62 61 52 73 82 120 147 126 148 172 169 167 129 135 133 106 113 141 118 122 122 111 94 81];
+freq        = <span class="string">'q'</span>;
+mnemonic    = <span class="string">'ironP'</span>;
+dates       = latttt(2008,2014,3,3,<span class="string">'freq'</span>,freq);
+d1 = Tsdata(dates,ironP',<span class="string">'q'</span>, mnemonic);
+</pre><p>Now, suppose the researcher follows the above with more script to set up the batch for the AR (Batchvar), again defining the sample as running from 2007.01 to 2014.3 using the sample command in the AR batch.  Then PROFOR will use the shorter (truncated) sample for parameter estimation. This feature is handy when forecasting with competing models, or combining models based on out of sample performance, because the sample used for parameter estimation can differ across models.</p><p>However, when using the Batchcombination, the sample command takes on a different meaning.  In this case, the sample command refers to the data vintages used to construct the weights for forecast combinations and evaluations.  Put differently,  the sample command in this context defines the `out of sample' evaluation period! Worth noting too that data vintages dated time t have observations up to t-1 (macro data are released with a one period time lag) so the data vintages define the forecast origins.</p><p>Consider the following example:</p><pre class="codeinput">b                                   = Batchcombination;
+b.selectionY                        = {<span class="string">'ironP'</span>};
+b.selectionA                        = {<span class="string">'AR1'</span>, <span class="string">'M2'</span>};
+b.forecastSettings.nfor             = 8;
+b.sample                            = <span class="string">'2012.01 - 2014.04'</span>;
+</pre><p>This defines the out of sample evaluation period on forecast origins from 2011.04 to 2014.03.  This features helps when working with ragged edge data.  Different models, with different variables are compared (combined) based on common information sets.</p><p>As an example, suppose the researcher wishes to forecast GDP growth with an AR(1) model and a bivariate VAR in (lags of) GDP growth and spreads. The researcher wants to exploit the timeliness of the spreads, published daily, but this introduces a ragged edge problem because GDP releases are quarterly. Suppose the researcher has spread data including all days in 2000.02, but the last available observation for GDP is 2000.01. And the researcher wishes to make a forecast from, say, end May 2002. The 2000.02 data vintage contains the last observations 2000.01 and 2000.02 for GDP growth and spreads, respectively. So, in effect the two models have distinct forecast origins, but a common information set date -- the data vintage dated 2000.02. The VAR will contain a missing observation for GDP growth, which is extrapolated using the Kalman Filter, to give a first forecast target of, say, 2000.03.  Note, that this is a two step ahead forecast from the perspective of the AR(1) model for GDP growth, but only one step ahead for the VAR, dealing with the ragged edge.</p><p>If the data do not have a ragged edge issue, things are simple.  The sample command in the batch for the combination just gives the data vintage dates (information sets) and the forecast origins are taken to be one period before each forecast origin, to allow for a one period lag in the release of macro data. For example, suppose a VAR in inflation and GDP growth is used to forecast, along with an AR(1) for each variable, going one step ahead.  Then the quarterly data contained in vintage 2000.02 contains the forecast origin of 2000.01 for all variables and the first target to be forecasted is 2000.02.</p><p>Another consideration when using the Profor batch (that is, the actual forecast evaluation and combination step), the researcher sets the END date and this overides the end date in the sample command in the batch for the individual models (and combinations). This way, PROFOR can generate updated forecasts easily as new data vintages come it, without the researcher having to change all the sample statements. In contrast, the Profor batch does not overide the start of the sample specified previously for individual models and combinations -- so that different models can use different start dates for estimation).</p><p>One final issue, sometimes the researcher wishes to set a ``training sample'' to initialize the weights in combinations.  This is to some extent arbitrary but circumvents instability in the weights with few out of sample observations.  If a training sample isn't specified by the researcher, the initial weights will be 1/N, where N is the number of models combined. To set a training sample, insert the following with the script controllling the Batchcombination:</p><pre class="codeinput">b.trainingPeriodSample              = <span class="string">'2012.01 - 2013.04'</span>;
+</pre><p>This fixes the data vintages to be used for training the weights.  The vintage dates specified must be a subset of those used for combination. In effect, the command tells PROFOR to generate weights and other metrics only after the 2011.04 vintage. But note that the weights always use the information in the training period.  That is, the default setting uses an expanding window to construct the weights, with the training period always included.</p><p>An altenative approach uses a rolling window of observations to construct the weights for combinations.  Invoke this approach by including the script below just after specifiying the training window in the batch combination.  Notice that the rolling widow is the the length of the training sample, and the training sample command must be included. Default is false -- expanding window.</p><pre class="codeinput">b.isRollingWindow = true
+</pre><pre class="codeoutput">
+b = 
+
+  Batchcombination with properties:
+
+                   pathA: []
+    trainingPeriodSample: '2012.01 - 2013.04'
+         isRollingWindow: 1
+             loadPeriods: [1x1 CellObj]
+        forecastSettings: [1x1 ForecastSetting]
+         generalSettings: [1x1 GeneralSetting]
+      brierScoreSettings: [1x1 BrierScoreSetting]
+    densityScoreSettings: [1x1 DensityScoreSetting]
+           controlModels: 0
+                  method: 'combination'
+                    freq: ''
+          onlyEvaluation: 0
+              selectionY: [1x1 CellObj]
+              selectionX: [1x1 CellObj]
+              selectionA: [1x1 CellObj]
+                  sample: '2012.01 - 2014.04'
+            dataSettings: [1x1 CellObj]
+      simulationSettings: [1x1 SimulationSetting]
+                dataPath: []
+                savePath: []
+               modelName: 'Combo'
+                   links: 'Only a Model class can set this!'
+                   state: 0
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Subtle Considerations
+
+%% Subtle considerations 
+%
+% Some features of the toolbox that are somewhat subtle, but worth knowing.
+% 
+%
+
+%% dataSettings
+%
+% In the batch objects for the different models there is a property called
+% dataSettings. The dataSettings property for the individual models defines
+% which transformations will be used for that particular model
+% 
+% Likewise, the dataSettings property for the combination batch file
+% defines which transformations will be used in the combination,
+% i.e., when evaluating the individual models and constructing a combined
+% forecast.
+%
+% Thus, the dataSettings for the individual models and the combination can
+% differ.
+%
+% The dataSettings property does not need to be defined. Then, its state is
+% default, and no transformations will be performed on the data when running
+% models and combination. This means that the researcher can only report
+% the forecasts in the same form as the raw data read into the models.
+%
+% When the dataSetting property is not at its default, PROFOR will
+% transfrom the data in "real time" according to this ordering:
+%
+% sesAdjData; convertData; transformData; trendAdjData;
+%
+% After the second transformation: convertData, the Tsdata object is saved.
+% Why? To be used when level information required to construct forecasting
+% objects. The file is saved as:
+% save(fullfile(proforStartup.pfRoot,'temp',obj.links.tag,'historyDataForForecasting.mat'),
+% 'E');
+% 
+
+%% xDomain
+%
+% The xDomain setting in densityScoreSettings defines the manner in which the
+% densities are approximated. PROFOR uses the built-in MATLAB ksdensity
+% function to do this.  If the researcher does not
+% specify an xDomain, then PROFOR automatically defines one.
+% The default xDomainLength is 500.
+%
+% As the number of grid points increases (i.e., a finer grid), the accuracy
+% of the approximation improves.  If the start and end points are too
+% close, the pdfs will not integrate to 1. Setting the start and end far
+% apart is safer, but at the cost of increased computation time.
+
+%% Parallel computing 
+%
+% The PROFOR toolbox uses the parfor function from the built-in Matlab
+% Parallel Computing Toolbox. This speeds up computations when looping
+% across individual models, when controlling, loading and evaluating
+% individual models and when combining forecasts.  Absent the Parallel
+% computing toolbox, the run time on many PROFOR computations increases,
+% but it still runs. By default, the proforStartup() command starts a
+% number of local workers in MATLAB. The number of workers started depends
+% on the researcher's MATLAB and computer settings.
+%
+% For example, by running the command, the researcher tells PROFOR to
+% utilize 2 workers:
+nWorkers = 2;
+proforStartup(nWorkers)
+ 
+%% Setting samples 
+%
+% Sample commands perform a number of functions within PROFOR.  The exact
+% meaning of a sample commmand depends on where the command is given.
+% Consider the use of the sample command for parameter estimation. Suppose,
+% the researcher specifies the sample in the batch for the individual
+% model. For example, using an AR model:
+% 
+
+b               = Batchvar;
+b.selectionY    = {'ironP'};
+b.sample        = '2007.01 - 2014.03';
+%%
+% The first date is the first observation included for parameter
+% estimation, here 2007.01, and the second date is the last observation
+% included for parameter estimation, in this case 2014.03.  
+%
+% The Tsdata object will override this sample for paramerter estimation iff
+% there are insufficient observations in that instance.  For example,
+% suppose the researcher first specifies the variable `ironP' as follows:
+%
+
+ironP = [124 62 61 52 73 82 120 147 126 148 172 169 167 129 135 133 106 113 141 118 122 122 111 94 81];
+freq        = 'q';
+mnemonic    = 'ironP';
+dates       = latttt(2008,2014,3,3,'freq',freq);
+d1 = Tsdata(dates,ironP','q', mnemonic);
+
+%% 
+% Now, suppose the researcher follows the above with more script to set up
+% the batch for the AR (Batchvar), again defining the sample as running
+% from 2007.01 to 2014.3 using the sample command in the AR batch.  Then
+% PROFOR will use the shorter (truncated) sample for parameter estimation.
+% This feature is handy when forecasting with competing models, or
+% combining models based on out of sample performance, because the sample
+% used for parameter estimation can differ across models.
+%
+% However, when using the Batchcombination, the sample command takes on a
+% different meaning.  In this case, the sample command refers to the data
+% vintages used to construct the weights for forecast combinations and
+% evaluations.  Put differently,  the sample command in this context
+% defines the `out of sample' evaluation period! Worth noting too that data
+% vintages dated time t have observations up to t-1 (macro data are
+% released with a one period time lag) so the data
+% vintages define the forecast origins.  
+%
+% Consider the following example:
+
+b                                   = Batchcombination;
+b.selectionY                        = {'ironP'};
+b.selectionA                        = {'AR1', 'M2'};
+b.forecastSettings.nfor             = 8;
+b.sample                            = '2012.01 - 2014.04';
+%%
+% This defines the out of sample evaluation period on forecast origins 
+% from 2011.04 to 2014.03.  This features helps when working with ragged
+% edge data.  Different models, with different variables are compared
+% (combined) based on common information sets.
+%
+% As an example, suppose the researcher wishes to forecast GDP growth with
+% an AR(1) model and a bivariate VAR in (lags of) GDP growth and spreads.
+% The researcher wants to exploit the timeliness of the
+% spreads, published daily, but this introduces a ragged edge problem
+% because GDP releases are quarterly. Suppose the researcher has spread data
+% including all days in 2000.02, but the last available observation for GDP
+% is 2000.01. And the researcher wishes to make a forecast from, say, 
+% end May 2002. The 2000.02 data vintage contains the last observations 2000.01 
+% and 2000.02 for GDP growth and spreads, respectively. So, in effect
+% the two models have distinct forecast origins, but a common information
+% set date REPLACE_WITH_DASH_DASH the data vintage dated 2000.02. The VAR will contain a missing 
+% observation for GDP growth, which is extrapolated using the Kalman Filter, to 
+% give a first forecast target of, say, 2000.03.  Note, that this is a two step
+% ahead forecast from the perspective of the AR(1) model for GDP growth, but 
+% only one step ahead for the VAR, dealing with the ragged edge. 
+%
+% If the data do not have a ragged edge issue, things are simple.  The
+% sample command in the batch for the combination just gives the data
+% vintage dates (information sets) and the forecast origins are taken to be
+% one period before each forecast origin, to allow for a one period lag in
+% the release of macro data. For example, suppose a VAR in inflation and GDP
+% growth is used to forecast, along with an AR(1) for each variable, going
+% one step ahead.  Then the quarterly data contained in vintage 2000.02
+% contains the forecast origin of 2000.01 for all variables and the first
+% target to be forecasted is 2000.02.
+%
+% Another consideration when using the Profor batch (that is, the actual
+% forecast evaluation and combination step), the researcher sets the END
+% date and this overides the end date in the sample command in the batch
+% for the individual models (and combinations). This way, PROFOR can
+% generate updated forecasts easily as new data vintages come it, without
+% the researcher having to change all the sample statements.
+% In contrast, the Profor batch does not overide the start of the sample
+% specified previously for individual models and combinations
+% REPLACE_WITH_DASH_DASH so that different models can use different start dates for
+% estimation).
+% 
+% One final issue, sometimes the researcher wishes to set a ``training
+% sample'' to initialize the weights in combinations.  This is to some
+% extent arbitrary but circumvents instability in the weights with 
+% few out of sample observations.  If a training sample isn't
+% specified by the researcher, the initial weights will be 1/N, where N is
+% the number of models combined. To set a training sample, insert the
+% following with the script controllling the Batchcombination:
+
+b.trainingPeriodSample              = '2012.01 - 2013.04';
+
+%%
+% This fixes the data vintages to be used for training the weights.  The
+% vintage dates specified must be a subset of those used for combination.
+% In effect, the command tells PROFOR to generate weights and other metrics
+% only after the 2011.04 vintage. But note that the weights always use the
+% information in the training period.  That is, the default setting uses an
+% expanding window to construct the weights, with the training period
+% always included.
+%
+% An altenative approach uses a rolling window of observations to construct
+% the weights for combinations.  Invoke this approach by including the
+% script below just after specifiying the training window in the batch
+% combination.  Notice that the rolling widow is the the length of the
+% training sample, and the training sample command must be included.
+% Default is false REPLACE_WITH_DASH_DASH expanding window.
+
+b.isRollingWindow = true
+
+
+##### SOURCE END #####
+--></body></html>

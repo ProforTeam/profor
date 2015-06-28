@@ -1,0 +1,326 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Transform Data</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-02-02"><meta name="DC.source" content="transformsTsdataExample.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Transform Data</h1><!--introduction--><p>This shows how to transform variables and store within the Tsdata class.</p><p>See the <a href="matlab:edit(fullfile('transformsTsdataExample.m'))">matlab code</a> corresponding to this help file to run examples directly in Matlab.</p><p>For details of the various ways to load data into Tsdata objects in PROFOR see the file at: <a href="matlab:edit(fullfile('usingTsdataExample.m'))">matlab code</a>.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">1) Loading up data generated in PROFOR</a></li><li><a href="#7">2) Check the current transformations</a></li><li><a href="#11">2) More transformations</a></li><li><a href="#19">3) Remember Tsdata is a handle class</a></li><li><a href="#22">4) Seasonal adjustment</a></li></ul></div><pre class="codeinput">format <span class="string">bank</span>;
+</pre><h2>1) Loading up data generated in PROFOR<a name="2"></a></h2><p>Suppose some time series data have been simulated from a VAR model and stored as a Tsdata object. Load the file containing these time series using the standard Matlab load command.</p><pre class="codeinput">load( fullfile( proforStartup.pfRootHelpData, <span class="string">'varData.mat'</span>) )
+</pre><p>Note: proforStartup.pfRoot points to the root directory of the PROFOR Toolbox.</p><p>The object d is of a Tsdata class, size 1 x 4, i.e. a Tsdata object that contains 4 different time series.</p><p>Define:</p><pre class="codeinput">d1 = d(1);
+</pre><p>This constructs a new Tsdata object, d1, which only contains the first time series object in d.</p><h2>2) Check the current transformations<a name="7"></a></h2><p>The following commands check the current state of transformation:</p><p>(i) transfState shows the transformation state, e.g., if the data have been transformed to growth rates etc.</p><p>(ii) conversionState shows if the data have been aggregated</p><p>(iii) outlierState shows if the data have been corrected for outliers</p><p>(iv) sesAdjState shows if the data have been seasonally adjusted</p><p>(v) trendAdjState shows if the data have been trend adjusted.</p><pre class="codeinput">d1.transfState
+d1.conversionState
+d1.outlierState
+d1.sesAdjState
+d1.trendAdjState
+</pre><pre class="codeoutput">
+ans =
+
+n
+
+
+ans =
+
+n
+
+
+ans =
+
+n
+
+
+ans =
+
+n
+
+
+ans =
+
+n
+
+</pre><p>The states can't be set by the researcher. To work with the data, use the dataSettings property (together with the methods built into the Tsdata class).</p><pre class="codeinput">d1.dataSettings
+</pre><pre class="codeoutput">
+ans = 
+
+  DataSetting with properties:
+
+            doSesAdj: 'n'
+          doTrendAdj: 'n'
+      doConversionTo: 'n'
+          doTransfTo: 'n'
+       doOutlierCorr: 'n'
+       outlierMethod: [1x1 CellObj]
+       setOutliersAs: 6.00
+      trendAdjMethod: [1x1 CellObj]
+         setLambdaAs: 1600.00
+    conversionMethod: [1x1 CellObj]
+        sesAdjMethod: [1x1 CellObj]
+
+</pre><h2>2) More transformations<a name="11"></a></h2><p>Take a look at all the possible transformations available, in terms of growth rates etc., The first column reports the numeric associated with a particular transformation. The last column reports the string associated with the transformation. Both can be used (see below).</p><pre class="codeinput">d1.listAllDataTransformations
+</pre><pre class="codeoutput">
+ans = 
+
+    '0 = no transformation'                'n'             
+    '1 = log                       ...'    'log'           
+    '2 = diff                      ...'    'diff'          
+    '3 = growth                    ...'    'gr'            
+    '4 = growth diff growth        ...'    'grdiffgr'      
+    '5 = log diff                  ...'    'logdiff'       
+    '6 = log growth                ...'    'loggr'         
+    '7 = log growth diff growth    ...'    'loggrdiffgr'   
+    '8 = diff yoy                  ...'    'diffyoy'       
+    '9 = growth yoy                ...'    'gryoy'         
+    '10= growth diff growth yoy    ...'    'grdiffgryoy'   
+    '11= log diff yoy              ...'    'logdiffyoy'    
+    '12= log growth yoy            ...'    'loggryoy'      
+    '13= log growth diff growth yoy...'    'loggrdiffgryoy'
+
+</pre><p>Check the current transformation status at any point with the following command:</p><pre class="codeinput">d1.getTransfDescription
+</pre><pre class="codeoutput">
+ans =
+
+0 = no transformation
+
+</pre><p>To transform to growth rates, specify the property as 3, which is the code for growth rates (in percent):</p><pre class="codeinput">d1_original = d1;
+d1.dataSettings.doTransfTo = 3;
+d1.transformData;
+</pre><p>Then update the state:</p><pre class="codeinput">d1.transfState
+</pre><pre class="codeoutput">
+ans =
+
+gr
+
+</pre><h2>3) Remember Tsdata is a handle class<a name="19"></a></h2><p>This means that even though d1 was extracted from d, all changes to d1 will also be made to d1 within d. Hence:</p><pre class="codeinput">diff_d1 = d1.getData - d(1).getData;
+</pre><p>is a time series with zeros. Plot to see this.</p><pre class="codeinput">plot(diff_d1)
+</pre><img vspace="5" hspace="5" src="transformsTsdataExample_01.png" alt=""> <h2>4) Seasonal adjustment<a name="22"></a></h2><p>In this example, the data are seasonally adjusted and quarterly growth rates calculated.</p><p>(This command currently only runs on Windows in this version of PROFOR; Mac version to come.)</p><pre class="codeinput">d1.dataSettings.doSesAdj = <span class="string">'y'</span>;
+<span class="keyword">if</span> ~any(strcmpi(computer, {<span class="string">'PCWIN32'</span>, <span class="string">'PCWIN64'</span>}))
+    warning(<span class="string">'See issue #78, only have binaries for seasonal adjust for windows at the minute'</span>)
+<span class="keyword">else</span>
+    d1.sesAdjData;
+<span class="keyword">end</span>
+</pre><p>The first line prepares for seasonal adjustment. If sesAdj='y', the data are seasonally adjusted; if  sesAdj='n' then there is no adjustment.</p><p>The second line undertakes the transformation.</p><p>With multiple variables to adjust, eg d, there is scope to adjust some variables but not others by using the 'y' switch. For example, first set 'y' for all, but then skip variable 2.</p><pre class="codeinput">d.setAll(<span class="string">'doSesAdj'</span>,<span class="string">'y'</span>)
+d(2).dataSettings.doSesAdj = <span class="string">'n'</span>;
+d.sesAdjData
+</pre><p>Next, check the states:</p><pre class="codeinput">{d.sesAdjState}
+</pre><pre class="codeoutput">
+ans = 
+
+    'y'    'n'    'y'    'y'
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Transform Data   
+%
+% This shows how to transform variables and store within the Tsdata 
+% class. 
+%
+% See the
+% <matlab:edit(fullfile('transformsTsdataExample.m')) matlab code>
+% corresponding to this help file to run examples directly in Matlab.
+%
+% For details of the various ways to load data into Tsdata objects in
+% PROFOR see the file at:
+% <matlab:edit(fullfile('usingTsdataExample.m')) matlab code>.
+%%
+format bank;
+
+%% 1) Loading up data generated in PROFOR
+% Suppose some time series data have been simulated from a VAR model and
+% stored as a Tsdata object. Load the file containing these time series
+% using the standard Matlab load command.
+%%
+
+load( fullfile( proforStartup.pfRootHelpData, 'varData.mat') )
+%%
+% Note: proforStartup.pfRoot points to the root directory of the PROFOR
+% Toolbox.
+% 
+% The object d is of a Tsdata class, size 1 x 4, i.e. a Tsdata object that
+% contains 4 different time series.
+%
+% Define:
+%%
+
+d1 = d(1);
+
+%%
+% This constructs a new Tsdata object, d1, which only contains the first
+% time series object in d.
+
+%% 2) Check the current transformations
+% 
+% The following commands check the current state of transformation:
+%
+% (i) transfState shows the transformation state, e.g., if the data have been 
+% transformed to growth rates etc. 
+%
+% (ii) conversionState shows if the data have
+% been aggregated 
+%
+% (iii) outlierState shows if the data have been corrected for outliers 
+%
+% (iv) sesAdjState shows if the data have been seasonally adjusted
+%
+% (v) trendAdjState shows if the data have been trend adjusted.
+%%
+d1.transfState
+d1.conversionState
+d1.outlierState
+d1.sesAdjState
+d1.trendAdjState
+
+%%
+% The states can't be set by the researcher. To work with the data, use the
+% dataSettings property (together with the methods built into the Tsdata
+% class).
+%%
+
+d1.dataSettings
+
+
+%% 2) More transformations
+%
+% Take a look at all the possible transformations available, in terms of
+% growth rates etc., The first column reports the numeric associated with a
+% particular transformation. The last column reports the string associated
+% with the transformation. Both can be used (see below).
+%%
+
+d1.listAllDataTransformations
+
+%%
+% Check the current transformation status at any point with the
+% following command:
+%%
+
+d1.getTransfDescription
+
+%%
+% To transform to growth rates, specify the property as 3, 
+% which is the code for growth rates (in percent):
+%%
+
+d1_original = d1;
+d1.dataSettings.doTransfTo = 3;
+d1.transformData;
+
+%% 
+% Then update the state:
+%%
+
+d1.transfState
+
+%% 3) Remember Tsdata is a handle class
+%
+% This means that even though d1 was extracted from d, all changes to d1
+% will also be made to d1 within d. Hence:
+%%
+
+diff_d1 = d1.getData - d(1).getData;
+%%
+% is a time series with zeros. Plot to see this.
+%
+
+plot(diff_d1)
+
+%% 4) Seasonal adjustment
+%
+% In this example, the data are seasonally adjusted and quarterly growth
+% rates calculated.
+%
+% (This command currently only runs on Windows in this version of PROFOR;
+% Mac version to come.)
+%%
+
+d1.dataSettings.doSesAdj = 'y'; 
+if ~any(strcmpi(computer, {'PCWIN32', 'PCWIN64'}))
+    warning('See issue #78, only have binaries for seasonal adjust for windows at the minute')
+else
+    d1.sesAdjData;
+end
+
+%%
+% The first line prepares for seasonal adjustment. 
+% If sesAdj='y', the data are seasonally
+% adjusted; if  sesAdj='n' then there is no adjustment. 
+% 
+% The second line undertakes the transformation.
+%
+% With multiple variables to adjust, eg d, there is scope to adjust
+% some variables but not others by using the 'y' switch.  
+% For example, first set 'y' for all, but then skip variable 2.
+%%
+
+d.setAll('doSesAdj','y')
+d(2).dataSettings.doSesAdj = 'n';   
+d.sesAdjData
+
+%%
+% Next, check the states:
+%%
+
+{d.sesAdjState}
+
+##### SOURCE END #####
+--></body></html>

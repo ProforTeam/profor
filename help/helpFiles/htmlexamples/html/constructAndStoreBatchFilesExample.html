@@ -1,0 +1,346 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>constructAndStoreBatchFilesExample</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-02-02"><meta name="DC.source" content="constructAndStoreBatchFilesExample.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">constructAndStoreBatchFilesExample</a></li><li><a href="#3">1) AR(1)</a></li><li><a href="#10">2) VAR(4)</a></li><li><a href="#11">3) BVAR</a></li><li><a href="#14">4) Combination</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> constructAndStoreBatchFilesExample(loadDataPath, saveBatchPath)
+</pre><h2>constructAndStoreBatchFilesExample<a name="2"></a></h2><p>Constructing  batch files for a Profor experiment This function defines three batch objects for three individual models. The script also defines a batch file for model combination. All batch files are saved to a directory defined by input: saveBatchPath</p><p>Each batch object also contains a path identifier for where the model can find its data. This is defined by the input: loadDataPath</p><p>This function is only meant as an example. You can construct batch files for any supported model you want directly in the MATLAB workspace, or in any function if you like. In the PROFOR toolbox there are also function that produces a number of batch files and saves them to disk. See CommonFunctions/+constructModels. These functions are useful if you want to make many batch files in one go, e.g., many VAR batch with differing lag structures and combination of variables.</p><p>The important point to remember is that all models that are to be included in a PROFOR experiment must be saved to the same directory, e.g., saveBatchPath.</p><p>Also, before saving the batch objects it might be a good idea to check that the state of the batch is ok. The b.state is basically a command that checks that all settings are internally consistent. If b.state is true, the batch object is ready to be used for estimation, forecasting etc.</p><h2>1) AR(1)<a name="3"></a></h2><p>First, construct a simple AR(1) batch file, i.e., construct an instance of the VAR batch class:</p><pre class="codeinput">b               = Batchvar;
+</pre><p>Define number of lags:</p><pre class="codeinput">b.nlag          = 1;
+</pre><p>Define which variable to include in the model. This variable must be found as a separate .csv file in the loadDataPath directory. With selectionY a cellstr with one element, this will be an AR(1)</p><pre class="codeinput">b.selectionY    = {<span class="string">'gdp'</span>};
+</pre><p>This is the estimation sample. When the model is recursively estimated, the start date will be kept, but the end date truncated according to the settings for the combination batch.</p><pre class="codeinput">b.sample        = <span class="string">'1950.01 -2010.01'</span>;
+b.freq          = <span class="string">'q'</span>;
+</pre><p>Data settings These settings can be skipped, but if the data are to be transformed in real time, i.e., at each iteration, it is required. DataSetting is a class that defines some simple transformation that can be applied to the data:    transf                     = log differences, growth rates etc.    sesAdj                     = to seasonally adjust or not    trendAdj                   = to trend adjust or not    conversion and convertTo   = to construct lower frequency variables from                               higher frequency variables</p><p>The batch object needs one instance of the DataSetting class for each of the variables in selectionY. Each instance is stored in the cell b.dataSetting:</p><pre class="codeinput">seti            = DataSetting;
+seti.doTransfTo = 3;
+b.dataSettings  = {seti};
+</pre><p>File path to find the real time data for gdp (stored as a .csv file):</p><pre class="codeinput">b.dataPath      = loadDataPath;
+</pre><p>Finally, save the b instance to disk, and give it a name (must be unique):</p><pre class="codeinput">b.modelName     = <span class="string">'M1'</span>;
+b.savePath      = saveBatchPath;
+b.saveo;
+</pre><h2>2) VAR(4)<a name="10"></a></h2><p>This does the same as above, but now for a bivariate VAR(4):</p><pre class="codeinput">b               = Batchvar;
+b.nlag          = 4;
+b.selectionY    = {<span class="string">'gdp'</span>,<span class="string">'gdpctpi'</span>};
+b.sample        = <span class="string">'1950.01 -2010.01'</span>;
+b.freq          = <span class="string">'q'</span>;
+seti            = DataSetting;
+seti.doTransfTo = 3;
+b.dataSettings  = {seti,seti};
+b.dataPath      = loadDataPath;
+b.modelName     = <span class="string">'M2'</span>;
+b.savePath      = saveBatchPath;
+b.saveo;
+</pre><h2>3) BVAR<a name="11"></a></h2><p>The final indiviudal batch object is a BVAR. Most of the settings and descriptions from above apply, but now define some priors:</p><pre class="codeinput">b               = Batchbvar;
+b.nlag          = 1;
+b.selectionY    = {<span class="string">'gdp'</span>,<span class="string">'gdpctpi'</span>};
+b.sample        = <span class="string">'1950.01 -2010.01'</span>;
+b.freq          = <span class="string">'q'</span>;
+seti            = DataSetting;
+seti.doTransfTo = 3;
+b.dataSettings  = {seti,seti};
+b.dataPath      = loadDataPath;
+</pre><p>The priors are set and saved in b.priorSettings. Since the state space system is the default, the priorSettings have to "fields" .tr and .obs: transition equation and observation equation. For a BVAR the obs is redundant, so the researcher only needs to care about the .tr "field" The .tr "field" has four properties v, V, T, and Q. v is the degress of freedom (or weight put on the prior), V is the covariance among the parameters of the BVAR (the T matrix), T is the mean of the parameters, and Q is the mean of the covaraince of the errors.</p><pre class="codeinput">b.priorSettings.tr.v = 200;
+b.priorSettings.tr.V = diag(repmat(0.05,[6 1]));
+b.priorSettings.tr.T = [0 0.9 0;
+                        0 0 0.9];
+b.priorSettings.tr.Q = [0.5 0;0 0.5];
+</pre><p>The simulationSettings defines the number of draws employed to construct the posterier etc. The nburn property of simulationSettings defines the burn-in.</p><pre class="codeinput">b.simulationSettings.nBurnin = 100;
+b.modelName     = <span class="string">'M3'</span>;
+b.savePath      = saveBatchPath;
+b.saveo;
+</pre><h2>4) Combination<a name="14"></a></h2><p>Now, the combination file. The batch file for the combination defines which models to evaluate and combine, and which variables to evaluate and combine.</p><pre class="codeinput">b                                   = Batchcombination;
+</pre><p>Define two variables to evalaute and combine. Note that the combination, when executed, is applied to one variable at the time. So, M1 above do not use "gdpctpi". This is ok, PROFOR automatically understands this, and uses only M2 and M3 when evaluating and combining "gdpctpi"</p><pre class="codeinput">b.selectionY                        = {<span class="string">'gdp'</span>, <span class="string">'gdpctpi'</span>};
+b.selectionA                        = {<span class="string">'M1'</span>, <span class="string">'M2'</span>,<span class="string">'M3'</span>};
+</pre><p>Define the number of horizons to evaluate the forecast and to produce a combined forecast for:</p><pre class="codeinput">b.forecastSettings.nfor             = 4;
+</pre><p>This defines the sample over which the weights should be estimated. The individual models are estimated recursively over this sample, then evaluated and used by the combination program to construct weights, scores and a forecast. The out-of-sample forecast will then start for the vintage 2004.01</p><pre class="codeinput">b.sample                            = <span class="string">'2000.01-2004.01'</span>;
+b.freq                              = <span class="string">'q'</span>;
+</pre><p>This defines where the program can find the batch files for the individual models. The same path used above to save the individual batch files.</p><pre class="codeinput">b.pathA                             = saveBatchPath;
+</pre><p>Define a scoring method (this can be updated also after having run the model)</p><pre class="codeinput">b.densityScoreSettings.scoringMethods   = {<span class="string">'logScoreD'</span>};
+</pre><p>Set the event thresholds for the Brier Score and economic loss evaluations.  If none are provided the default setting is the unconditional mean of the estimation period.</p><pre class="codeinput">b.brierScoreSettings.eventThresholdValue  = [0.75, 1.0, 1.25, 1.5];
+</pre><p>Define the number of simulations to be used for constructing densities:</p><pre class="codeinput">b.simulationSettings.nSaveDraws     = 1000;
+b.simulationSettings.showProgress   = false;
+b.dataPath                          = loadDataPath;
+seti                                = DataSetting;
+seti.doTransfTo                     = 3;
+b.dataSettings                      = {seti,seti};
+b.savePath      = saveBatchPath;
+b.saveo;
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function constructAndStoreBatchFilesExample(loadDataPath, saveBatchPath)
+%% constructAndStoreBatchFilesExample 
+%
+% Constructing  batch files for a Profor experiment
+% This function defines three batch objects for three individual models. 
+% The script also defines a batch file for model combination. All batch files are
+% saved to a directory defined by input: saveBatchPath
+%
+% Each batch object also contains a path identifier for where the model can 
+% find its data. This is defined by the input: loadDataPath
+%
+% This function is only meant as an example. You can construct batch files
+% for any supported model you want directly in the MATLAB workspace, or in
+% any function if you like. In the PROFOR toolbox there are also function
+% that produces a number of batch files and saves them to disk. See 
+% CommonFunctions/+constructModels. These functions are useful if you want
+% to make many batch files in one go, e.g., many VAR batch with differing lag 
+% structures and combination of variables. 
+%
+% The important point to remember is that all models that are to be
+% included in a PROFOR experiment must be saved to the same directory,
+% e.g., saveBatchPath. 
+%
+% Also, before saving the batch objects it might be a good idea to check
+% that the state of the batch is ok. The b.state is basically a command
+% that checks that all settings are internally consistent. If b.state is
+% true, the batch object is ready to be used for estimation, forecasting
+% etc. 
+
+
+%% 1) AR(1)
+%
+% First, construct a simple AR(1) batch file, i.e., construct an instance of 
+% the VAR batch class:
+
+b               = Batchvar; 
+%%
+% Define number of lags:
+
+b.nlag          = 1;        
+
+%%
+% Define which variable to include in the model. This variable must be
+% found as a separate .csv file in the loadDataPath directory. With 
+% selectionY a cellstr with one element, this will be an
+% AR(1)
+
+b.selectionY    = {'gdp'};            
+
+%% 
+% This is the estimation sample. When the model is recursively estimated,
+% the start date will be kept, but the end date truncated according to the
+% settings for the combination batch.
+
+b.sample        = '1950.01 -2010.01'; 
+b.freq          = 'q'; 
+
+%%
+% Data settings
+% These settings can be skipped, but if the data are to be transformed in real
+% time, i.e., at each iteration, it is required. DataSetting is a
+% class that defines some simple transformation that can be applied to the
+% data: 
+%    transf                     = log differences, growth rates etc. 
+%    sesAdj                     = to seasonally adjust or not
+%    trendAdj                   = to trend adjust or not
+%    conversion and convertTo   = to construct lower frequency variables from 
+%                               higher frequency variables 
+%
+% The batch object needs one instance of the DataSetting class for each of
+% the variables in selectionY. Each instance is stored in the cell
+% b.dataSetting:
+
+seti            = DataSetting;
+seti.doTransfTo = 3;
+b.dataSettings  = {seti};
+
+%%
+% File path to find the real time data for gdp (stored as a .csv file):
+
+b.dataPath      = loadDataPath;
+%%
+% Finally, save the b instance to disk, and give it a name (must be
+% unique):
+
+b.modelName     = 'M1';
+b.savePath      = saveBatchPath;
+b.saveo;
+
+%% 2) VAR(4) 
+%
+% This does the same as above, but now for a bivariate VAR(4):
+
+b               = Batchvar;
+b.nlag          = 4;
+b.selectionY    = {'gdp','gdpctpi'};
+b.sample        = '1950.01 -2010.01';
+b.freq          = 'q';
+seti            = DataSetting;
+seti.doTransfTo = 3;
+b.dataSettings  = {seti,seti};
+b.dataPath      = loadDataPath;
+b.modelName     = 'M2';
+b.savePath      = saveBatchPath;
+b.saveo;
+
+%% 3) BVAR
+%
+% The final indiviudal batch object is a BVAR. Most of the settings and
+% descriptions from above apply, but now define some
+% priors:
+b               = Batchbvar;
+b.nlag          = 1;
+b.selectionY    = {'gdp','gdpctpi'};
+b.sample        = '1950.01 -2010.01';
+b.freq          = 'q';
+seti            = DataSetting;
+seti.doTransfTo = 3;
+b.dataSettings  = {seti,seti};
+b.dataPath      = loadDataPath;
+
+%%
+% The priors are set and saved in b.priorSettings. Since the state space
+% system is the default, the priorSettings have to "fields" .tr and .obs:
+% transition equation and observation equation. For a BVAR the obs is redundant,
+% so the researcher only needs to care about the .tr "field"
+% The .tr "field" has four properties v, V, T, and Q. v is the degress of
+% freedom (or weight put on the prior), V is the covariance among the
+% parameters of the BVAR (the T matrix), T is the mean of the parameters,
+% and Q is the mean of the covaraince of the errors. 
+
+b.priorSettings.tr.v = 200;
+b.priorSettings.tr.V = diag(repmat(0.05,[6 1]));
+b.priorSettings.tr.T = [0 0.9 0;
+                        0 0 0.9];
+b.priorSettings.tr.Q = [0.5 0;0 0.5];
+%%
+%
+% The simulationSettings defines the number of draws employed to construct
+% the posterier etc. The nburn property of simulationSettings defines the
+% burn-in. 
+
+b.simulationSettings.nBurnin = 100;
+b.modelName     = 'M3';
+b.savePath      = saveBatchPath;
+b.saveo;
+
+
+%% 4) Combination
+%
+% Now, the combination file. The batch file for the combination 
+% defines which models to evaluate and combine, and which variables to evaluate 
+% and combine.  
+
+b                                   = Batchcombination;
+
+%%
+% Define two variables to evalaute and combine. Note that the
+% combination, when executed, is applied to one variable at the time. So,
+% M1 above do not use "gdpctpi". This is ok, PROFOR automatically understands
+% this, and uses only M2 and M3 when evaluating and combining "gdpctpi"
+
+b.selectionY                        = {'gdp', 'gdpctpi'};
+b.selectionA                        = {'M1', 'M2','M3'};
+
+%%
+% Define the number of horizons to evaluate the forecast and to produce
+% a combined forecast for:
+
+b.forecastSettings.nfor             = 4; 
+
+%%
+% This defines the sample over which the weights should be estimated.
+% The individual models are estimated recursively over this sample, then
+% evaluated and used by the combination program to construct weights,
+% scores and a forecast. The out-of-sample forecast will then start for the
+% vintage 2004.01
+
+b.sample                            = '2000.01-2004.01';
+b.freq                              = 'q';
+
+%%
+% This defines where the program can find the batch files for the
+% individual models. The same path used above to save the individual
+% batch files. 
+
+b.pathA                             = saveBatchPath;
+
+%%
+% Define a scoring method (this can be updated also after having run the model)
+
+b.densityScoreSettings.scoringMethods   = {'logScoreD'};
+
+%%
+% Set the event thresholds for the Brier Score and economic loss
+% evaluations.  If none are provided the default setting is the
+% unconditional mean of the estimation period.
+
+b.brierScoreSettings.eventThresholdValue  = [0.75, 1.0, 1.25, 1.5];
+
+
+%%
+% Define the number of simulations to be used for constructing densities:
+
+b.simulationSettings.nSaveDraws     = 1000;
+b.simulationSettings.showProgress   = false;
+b.dataPath                          = loadDataPath;
+seti                                = DataSetting;
+seti.doTransfTo                     = 3;
+b.dataSettings                      = {seti,seti};
+b.savePath      = saveBatchPath;
+b.saveo;
+
+
+##### SOURCE END #####
+--></body></html>

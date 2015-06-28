@@ -1,0 +1,266 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Import External Forecasts, Bank of England Example</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-02-02"><meta name="DC.source" content="bankOfEnglandExample.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Import External Forecasts, Bank of England Example</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Import External Forecasts, Bank of England Example</a></li><li><a href="#2">1) Initialize</a></li><li><a href="#3">2) Set the path locations</a></li><li><a href="#6">3) Construct batch file for AR(1) benchmark, then another for BOE forecasts</a></li><li><a href="#8">4) Construct a batch file for the combination and evaluation</a></li><li><a href="#13">4) Run Profor</a></li><li><a href="#14">5) Check output</a></li></ul></div><h2>Import External Forecasts, Bank of England Example<a name="1"></a></h2><p>This example shows how to use external analytic forecasts. The researcher imports the key parameters of the Bank of England's two-piece Normal forecast densities for inflation. These are compared with the forecasts from an AR(1) benchmark.  Note that a report can be constructed to display a selection of forecast evaluation metrics.</p><pre class="codeinput">clear <span class="string">all</span>;
+</pre><h2>1) Initialize<a name="2"></a></h2><p>Initialize the Profor object:</p><pre class="codeinput">p               = Profor;
+</pre><h2>2) Set the path locations<a name="3"></a></h2><p>Set the directory to store the results:</p><pre class="codeinput">p.savePath          = fullfile(proforStartup.pfRoot,<span class="string">'help'</span>,<span class="string">'helpFiles'</span>,<span class="keyword">...</span>
+    <span class="string">'htmlexamples'</span>, <span class="string">'+results'</span>, <span class="string">'bankOfEnglandExample'</span>);
+</pre><p>Set the directory where the model setup files will reside:</p><pre class="codeinput">p.modelSetupPath    = fullfile(proforStartup.pfRoot,<span class="string">'help'</span>,<span class="string">'helpFiles'</span>, <span class="keyword">...</span>
+    <span class="string">'htmlexamples'</span>, <span class="string">'+batchFiles'</span>, <span class="string">'bankOfEnglandExample'</span>);
+</pre><p>Set the directory to load the data: In this experiment we use CPI data, and load it directly into the p object. There are no data revisions in the CPI so no reason to use real time data in the evaluation - just load the most recent vintage of data:</p><pre class="codeinput">loadDataPath    = proforStartup.pfRootHelpData;
+d               = loadRealTimeDataFromCsv(20140101, loadDataPath, <span class="string">'cpi'</span>, <span class="string">'q'</span>);
+p.data          = d;
+</pre><h2>3) Construct batch file for AR(1) benchmark, then another for BOE forecasts<a name="6"></a></h2><p>Note that the sample commands set the start and end observations for parameter estimation in the case of the AR(1).  The BOE forecasts require no estimation and the sample dates here just specify the forecast target dates.  The BOE forecasts are one step ahead here.</p><pre class="codeinput">b               = Batchvar;
+b.nlag          = 1;
+b.selectionY    = {<span class="string">'cpi'</span>};
+b.sample        = <span class="string">'1993.01 - 2014.01'</span>;
+b.freq          = <span class="string">'q'</span>;
+seti            = DataSetting;
+seti.doTransfTo = 0;
+b.dataSettings  = { seti };
+b.modelName     = <span class="string">'M1'</span>;
+b.savePath      = p.modelSetupPath;
+b.saveo;
+</pre><p>Next, import the external forecasts from the BoE using the External Analytic batch. Note that we here need to specify a path for the data - namely the path to the external forecast data (for convenience these are in this experiment placed in the same folder as used above, but they do not have to be!):</p><pre class="codeinput">b               = Batchexternalanalytic;
+b.selectionY    = {<span class="string">'cpi'</span>};
+b.sample        = <span class="string">'1993.01 - 2014.01'</span>;
+b.freq          = <span class="string">'q'</span>;
+seti            = DataSetting;
+seti.doTransfTo = 0;
+b.dataSettings  = { seti };
+b.dataPath      = loadDataPath;
+b.modelName     = <span class="string">'M2'</span>;
+b.savePath      = p.modelSetupPath;
+b.saveo;
+</pre><h2>4) Construct a batch file for the combination and evaluation<a name="8"></a></h2><p>(Even though the researcher won't use the combination here.)  Note that the sample command in the combination batch refers to data vintages.  With a one-period lag in the publication of macro data, the forecast origins are therefore 2003.04 through 2013.04. With one step ahead forecasts in this example, the forecast targets are therefore 2004.01 through 2014.01.</p><pre class="codeinput">b                                   = Batchcombination;
+b.selectionY                        = {<span class="string">'cpi'</span>};
+b.selectionA                        = {<span class="string">'M1'</span>, <span class="string">'M2'</span>};
+b.forecastSettings.nfor             = 1;
+b.sample                            = <span class="string">'2004.01 - 2014.01'</span>;
+b.freq                              = <span class="string">'q'</span>;
+</pre><p>Set the method to score the densities, e.g the average log score over the out of sample evaluation period (defined by the forecast targets):</p><pre class="codeinput">b.densityScoreSettings.scoringMethods                    = {<span class="string">'logScoreD'</span>};
+</pre><p>Now define the xDomain over which the densities will be approximated. PROFOR uses the built-in Matlab ksdensity function to do this. More grid points (i.e., a finer grid) results in better approximations. Set the start and end points far apart to be sure that the mass integrates to 1. But, a larger spread in the domain has a cost in terms of computational speed.</p><pre class="codeinput">b.densityScoreSettings.xDomain                           = {linspace(-5,5,500)'};
+</pre><p>Set the number of iterates used to construct the empirical densities:</p><pre class="codeinput">b.simulationSettings.nSaveDraws     = 1000;
+b.simulationSettings.showProgress   = false;
+</pre><p>Define some paths and settings for the Profor stage:</p><pre class="codeinput">b.pathA                             = p.modelSetupPath;
+seti                                = DataSetting;
+seti.doTransfTo                     = 0;
+b.dataSettings                      = {seti};
+b.savePath                          = p.modelSetupPath;
+b.saveo;
+</pre><h2>4) Run Profor<a name="13"></a></h2><p>When the paths have been defined and set, run Profor stage. This loads each batch file (for the individual model and external forecasts), and then estimates the model parameter (if necessary).  PROFOR constructs the forecasts recursively through the evaluation sample.</p><pre class="codeinput">p.runProfor;
+</pre><pre class="codeoutput">Starting Profor computations:
+Estimating 2 model(s)
+Combining forecasts for 1 variable(s)
+100%[===================================================]
+Done with Profor computations
+</pre><h2>5) Check output<a name="14"></a></h2><p>No output is stored in p. It tells the researcher whether everything worked as intended or not.</p><pre class="codeinput"><span class="comment">% To access output, go to the output folder directly (defined by</span>
+<span class="comment">% saveResultPath). Or construct a Report(p).</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Import External Forecasts, Bank of England Example
+
+%% Import External Forecasts, Bank of England Example
+% This example shows how to use external analytic forecasts. The researcher
+% imports the key parameters of the Bank of England's two-piece Normal
+% forecast densities for inflation. These are compared with the forecasts
+% from an AR(1) benchmark.  Note that a report can be constructed to
+% display a selection of forecast evaluation metrics.
+
+clear all; 
+%% 1) Initialize 
+% Initialize the Profor object:
+
+p               = Profor;
+
+%% 2) Set the path locations
+% Set the directory to store the results:
+
+p.savePath          = fullfile(proforStartup.pfRoot,'help','helpFiles',...
+    'htmlexamples', '+results', 'bankOfEnglandExample');
+
+
+%%
+% Set the directory where the model setup files will reside:
+
+p.modelSetupPath    = fullfile(proforStartup.pfRoot,'help','helpFiles', ...
+    'htmlexamples', '+batchFiles', 'bankOfEnglandExample');
+
+%%
+% Set the directory to load the data: In this experiment we use CPI data,
+% and load it directly into the p object. There are no data revisions in the CPI
+% so no reason to use real time data in the evaluation - just load the most 
+% recent vintage of data:
+
+loadDataPath    = proforStartup.pfRootHelpData;
+d               = loadRealTimeDataFromCsv(20140101, loadDataPath, 'cpi', 'q');
+p.data          = d;
+
+%% 3) Construct batch file for AR(1) benchmark, then another for BOE forecasts
+% Note that the sample commands set the start and end observations for
+% parameter estimation in the case of the AR(1).  The BOE forecasts require
+% no estimation and the sample dates here just specify the forecast target
+% dates.  The BOE forecasts are one step ahead here.
+
+b               = Batchvar;
+b.nlag          = 1;       
+b.selectionY    = {'cpi'};
+b.sample        = '1993.01 - 2014.01';
+b.freq          = 'q';
+seti            = DataSetting;
+seti.doTransfTo = 0;
+b.dataSettings  = { seti };
+b.modelName     = 'M1';
+b.savePath      = p.modelSetupPath;
+b.saveo;
+%%
+% Next, import the external forecasts from the BoE using the External
+% Analytic batch. Note that we here need to specify a path for the data -
+% namely the path to the external forecast data (for convenience these are
+% in this experiment placed in the same folder as used above, but they do
+% not have to be!): 
+
+b               = Batchexternalanalytic;
+b.selectionY    = {'cpi'};
+b.sample        = '1993.01 - 2014.01';
+b.freq          = 'q';
+seti            = DataSetting;
+seti.doTransfTo = 0;
+b.dataSettings  = { seti };
+b.dataPath      = loadDataPath;
+b.modelName     = 'M2';
+b.savePath      = p.modelSetupPath;
+b.saveo;
+
+%% 4) Construct a batch file for the combination and evaluation 
+% (Even though the researcher won't use the combination here.)  Note that
+% the sample command in the combination batch refers to data vintages.  With a
+% one-period lag in the publication of macro data, the forecast origins are
+% therefore 2003.04 through 2013.04. With one step ahead forecasts in this
+% example, the forecast targets are therefore 2004.01 through 2014.01.
+
+b                                   = Batchcombination;
+b.selectionY                        = {'cpi'};
+b.selectionA                        = {'M1', 'M2'};
+b.forecastSettings.nfor             = 1;
+b.sample                            = '2004.01 - 2014.01';
+b.freq                              = 'q';
+
+
+%%
+% Set the method to score the densities, e.g the average log score over the
+% out of sample evaluation period (defined by the forecast targets):
+
+b.densityScoreSettings.scoringMethods                    = {'logScoreD'};
+
+%%
+% Now define the xDomain over which the densities will be approximated.
+% PROFOR uses the built-in Matlab ksdensity function to do this. More grid
+% points (i.e., a finer grid) results in better approximations. Set the
+% start and end points far apart to be sure that the mass integrates to 1.
+% But, a larger spread in the domain has a cost in terms of computational speed.
+
+b.densityScoreSettings.xDomain                           = {linspace(-5,5,500)'};
+
+%%
+% Set the number of iterates used to construct the empirical densities:
+
+b.simulationSettings.nSaveDraws     = 1000;
+b.simulationSettings.showProgress   = false;
+
+%%
+% Define some paths and settings for the Profor stage:
+
+b.pathA                             = p.modelSetupPath;
+seti                                = DataSetting;
+seti.doTransfTo                     = 0;
+b.dataSettings                      = {seti};
+b.savePath                          = p.modelSetupPath;
+b.saveo;
+
+%% 4) Run Profor
+% When the paths have been defined and set, run Profor stage. This loads
+% each batch file (for the individual model and external forecasts), and
+% then estimates the model parameter (if necessary).  PROFOR constructs the
+% forecasts recursively through the evaluation sample. 
+
+p.runProfor;
+
+%% 5) Check output
+% No output is stored in p. It tells the researcher whether 
+% everything worked as intended or not.
+
+% To access output, go to the output folder directly (defined by
+% saveResultPath). Or construct a Report(p).
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

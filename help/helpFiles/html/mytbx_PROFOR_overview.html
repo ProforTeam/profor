@@ -1,0 +1,235 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PROFOR Overview</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-25"><meta name="DC.source" content="mytbx_PROFOR_overview.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>PROFOR Overview</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Preliminaries - Object Orientated Structure of Program</a></li><li><a href="#2">The PROFOR Toolbox</a></li><li><a href="#3">Model Class</a></li><li><a href="#8">Profor Class</a></li><li><a href="#10">Profor: Real-time capabilities</a></li><li><a href="#12">Profor: Combination</a></li><li><a href="#17">Report Class</a></li></ul></div><h2>Preliminaries - Object Orientated Structure of Program<a name="1"></a></h2><p>A researcher does not need to understand concepts from Object Orientated Programming (OOP) to be productive with PROFOR.  Nevertheless, OOP concepts are used to treat classes and instances as objects, and their 'functions' as methods and class properties, respectively.</p><p>To learn a little about OOP  (most code in economics is written functionally), take a glance at <a href="http://en.wikipedia.org/wiki/Object-oriented_programming">Wikipedia</a>.</p><h2>The PROFOR Toolbox<a name="2"></a></h2><p>The PROFOR toolbox is structured around two fundamental builiding blocks:</p><div><ol><li>Model: Class to store everything needed to estimate and forecast an individual model on a given data set.</li><li>Profor: Class that combines and determines how forecasts are evaluated.</li></ol></div><p>In addition, once all this is done,  a Reporting class allows the user to evaluate forecasts using various methods.</p><h2>Model Class<a name="3"></a></h2><p>A Model class contains all that is needed to estimate a model:</p><div><ol><li>Data (Tsdata)</li><li>Settings (Batch)</li></ol></div><p>The data have to be converted to PROFOR's data class, Tsdata. This is a container for  methods to transform the data. See the <a href="./mytbx_ch_2.html">Processing Data</a> help for some examples on how this is done.</p><p>For each individual type of model (e.g. VAR or BVAR), the settings are restricted by the Batch class. Thus, the initial set-up of the models is restricted to a set of values that make sense to that particular modelling class. See the various example batch setups in the <a href="./mytbx_ch_4.html">Running Models</a>, and <a href="./mytbx_ch_5.html">Estimating Models and forecasting</a>.</p><p><img vspace="5" hspace="5" src="img/model_with_forecasting.png" alt=""> </p><p>Most of the properties of the Tsdata and Batch class can be adjusted by the user. Once these two classes are provided and correctly specified, the user can estimate the model and generate forecasts. Doing so will populate the estimation and forecasting classes of the Model class.</p><p>In the PROFOR Toolbox, all individual models are initiated and run using the Model class container. The specifics of the settings, e.g., the Batch class, might change from one model to the next (e.g., VAR versus BVAR), but they are still run using the Model container.</p><p><h3>Model - State Space Formulation: Link from Tsdata & Batch to
+Estimation & Forecasting</h3></p><p>The link from initialising the Model class when setting Batch and Tsdata to the output of the model estimation and forecasting is achieved by specifying the model in state space.</p><p>The full specification of the state-space system is detailed in <a href="../htmlexamples/html/estimationNamingConventionsExample.html">Models and Structures</a>.</p><p>However estimated, all models end up in this format. Thus, aiding the combination and comparison of models subsequently.</p><p>From this common state-space formulation a forecast is churned out and stored in the forecast property which is a Forecasting class.</p><p>Within the forecasting class there is a property predictionsY, where all the forecasting results are stored in a common Tsdataforecast class. All forecasts, are stored with this Tsdataforecast class in order to aid comparability.</p><h2>Profor Class<a name="8"></a></h2><p>The Profor class is simply a wrapper class to perform model evaulation and combination with the ability to take into account the real-time structure of data sources. If the researcher supplies the Profor class with real-time data then, in addition to the evaluation and combination of models for a given vintage, PROFOR will look to the supplied data source, load the nearest data to the requested vintage and run model evaluation and combination for this vintage. This occurs recursively over the evaulation sample.</p><p>Thus, you can think of the Profor class of doing 2 main things.</p><div><ol><li>Recursive real-time estimation / forecasting / evaluation.</li><li>Model combination with recursive real-time estimation / forecasting / evaluation.</li></ol></div><h2>Profor: Real-time capabilities<a name="10"></a></h2><p>The DEMO version of PROFOR  handles quarterly data. Generally, when dealing with real-time quarterly data the current quarter's data are unavailable. Below is a typical real-time data set. It shows data from vintage = V2000.01 - V2000.03. Typically, macro data will contain data with some lag L, as drawn here the vintages V2000.01 &amp; V2000.02 have a one-period lag, and V2000.04 has a two-period lag.</p><p><img vspace="5" hspace="5" src="img/RaggedEdge.png" alt=""> </p><p>PROFOR can handle the reading of data with ragged edges and will also deal with forecasting by generating the required h-step iterative  forecast to achieve the required forecast.</p><h2>Profor: Combination<a name="12"></a></h2><p>PROFOR also allows for the combination of forecasts. Suppose the researcher has produced forecasts from two models, <img src="mytbx_PROFOR_overview_eq14341558656767205154.png" alt="$(M_1, M_2)$"> with a given data vintage, let's say <img src="mytbx_PROFOR_overview_eq15068074713411965809.png" alt="$\bar \tau$">. Shown in the figure below, where the estimation sample (for parameter estimation) and the out of sample evaluation sample are both specified explicitly.</p><p><img vspace="5" hspace="5" src="img/timingConventions.png" alt=""> </p><p>The combined Model class uses the forecasts produced by <img src="mytbx_PROFOR_overview_eq17040488434551444591.png" alt="$M_1$"> and <img src="mytbx_PROFOR_overview_eq17449863970030415324.png" alt="$M_2$"> through the evaluation sample, from <img src="mytbx_PROFOR_overview_eq05741613906649695704.png" alt="$\underline{\tau} - \bar \tau$">, to construct (out of sample) weights and predictive scores (e.g. average logarithmic score).</p><p>Of course, the weights and scores computed by the combined Model class will differ at a given date if the data used to estimate the models are revised. Both <img src="mytbx_PROFOR_overview_eq17040488434551444591.png" alt="$M_1$"> and <img src="mytbx_PROFOR_overview_eq17449863970030415324.png" alt="$M_2$"> need to be estimated for each vintage, and so does  the combined Model class.</p><p>Hence, Profor aims to replicate real-time model estimation and combination exercises in a fairly straightforward manner.</p><h2>Report Class<a name="17"></a></h2><p>Once all estimation, scoring and weighting are done, the researcher will want to look at some output! This is easy, simply supply the Report class with either individual Model classes or Profor classes that have been estimated and used to produce forecasts.</p><p>See the help section on, <a href="./mytbx_ch_6.html">To Analyse Results, Construct a Report</a>, for more information.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% PROFOR Overview
+%
+% 
+%% Preliminaries - Object Orientated Structure of Program
+% A researcher does not need to understand concepts from Object
+% Orientated Programming (OOP) to be productive with PROFOR.  Nevertheless,
+% OOP concepts are used to treat classes and instances as objects, and their
+% 'functions' as methods and class properties, respectively.
+%
+% To learn a little about OOP  (most code in economics
+% is written functionally), take a glance at
+% <http://en.wikipedia.org/wiki/Object-oriented_programming Wikipedia>.
+%
+%% The PROFOR Toolbox
+% The PROFOR toolbox is structured around two fundamental builiding blocks:
+%
+% # Model: Class to store everything needed to estimate and forecast an
+% individual model on a given data set. 
+% # Profor: Class that combines and determines how forecasts are 
+% evaluated.
+% 
+% In addition, once all this is done,  a Reporting class  
+% allows the user to evaluate forecasts using various methods.
+%  
+%% Model Class 
+%
+% A Model class contains all that is needed to estimate a model:
+% 
+% # Data (Tsdata)
+% # Settings (Batch)
+% 
+% The data have to be converted to PROFOR's data class, Tsdata. This is a
+% container for  methods to transform the data. 
+% See the
+% <./mytbx_ch_2.html Processing Data>
+% help for some examples on how this is done. 
+% 
+% For each individual type of model (e.g. VAR or BVAR), the settings are
+% restricted by the Batch class. Thus, the initial set-up of the models is
+% restricted to a set of values that make sense to that particular modelling
+% class. 
+% See the various example batch setups in the 
+% <./mytbx_ch_4.html Running Models>,
+% and
+% <./mytbx_ch_5.html Estimating Models and forecasting>.
+%
+%%
+% <<img/model_with_forecasting.png>>
+%%
+% Most of the properties of the Tsdata and Batch class can be adjusted by
+% the user. 
+% Once these two classes are provided and correctly specified, the user
+% can estimate the model and generate forecasts. 
+% Doing so will populate the estimation and forecasting classes of the Model 
+% class.
+%%
+% In the PROFOR Toolbox, all individual models are initiated and run using the
+% Model class container. 
+% The specifics of the settings, e.g., the Batch class, might change from 
+% one model to the next (e.g., VAR versus BVAR), but they are still run using 
+% the Model container. 
+%
+%%
+% <html><h3>Model - State Space Formulation: Link from Tsdata & Batch to 
+% Estimation & Forecasting</h3></html>
+% 
+% The link from initialising the Model class when setting Batch and Tsdata to
+% the output of the model estimation and forecasting is achieved by specifying 
+% the model in state space.
+% 
+% The full specification of the state-space system is detailed in
+% <../htmlexamples/html/estimationNamingConventionsExample.html Models and Structures>. 
+%
+% However estimated, all models end up in this format. Thus, aiding the
+% combination and comparison of models subsequently. 
+%
+% From this common state-space formulation a forecast is churned out 
+% and stored in the forecast property which is a Forecasting class.
+% 
+% Within the forecasting class there is a property predictionsY, where all the
+% forecasting results are stored in a common Tsdataforecast class. All
+% forecasts, are stored with this Tsdataforecast class in order to aid
+% comparability. 
+% 
+%% Profor Class
+% The Profor class is simply a wrapper class to perform model evaulation and 
+% combination with the ability to take into account the real-time structure of
+% data sources. 
+% If the researcher supplies the Profor class with real-time data then, in addition to the
+% evaluation and combination of models for a given vintage, PROFOR will look to
+% the supplied data source, load the nearest data to the requested vintage and
+% run model evaluation and combination for this vintage.
+% This occurs recursively over the evaulation sample.  
+%
+%%
+% Thus, you can think of the Profor class of doing 2 main things.
+%
+% # Recursive real-time estimation / forecasting / evaluation.
+% # Model combination with recursive real-time estimation / forecasting / 
+% evaluation.
+%
+%% Profor: Real-time capabilities
+% 
+% The DEMO version of PROFOR  handles quarterly data.  
+% Generally, when dealing with real-time quarterly data the current quarter's 
+% data are unavailable. 
+% Below is a typical real-time data set. 
+% It shows data from vintage = V2000.01 - V2000.03. 
+% Typically, macro data will contain data with some lag L, as drawn here
+% the vintages V2000.01 & V2000.02 have a one-period lag, and V2000.04 has a two-period lag. 
+% 
+%%
+% <<img/RaggedEdge.png>>
+% 
+% PROFOR can handle the reading of data with ragged edges and will also deal
+% with forecasting by generating the required h-step iterative  forecast to 
+% achieve the required forecast.
+%
+%% Profor: Combination
+%
+% PROFOR also allows for the combination of forecasts. 
+% Suppose the researcher has produced forecasts from two models, $(M_1, M_2)$ 
+% with a given data vintage, let's say $\bar \tau$. Shown in the figure below, 
+% where the estimation sample (for parameter estimation) and the out of sample
+% evaluation sample are both specified explicitly. 
+% 
+%% 
+% 
+% <<img/timingConventions.png>>
+% 
+%%
+% The combined Model class uses the 
+% forecasts produced by $M_1$ and $M_2$ through the evaluation sample, from 
+% $\underline{\tau} - \bar \tau$, to construct (out of sample) weights and 
+% predictive scores (e.g. average logarithmic score).
+% 
+%%
+% Of course, the weights and scores computed by the combined Model class will
+% differ at a given date if the data used to estimate the models are revised.
+% Both $M_1$ and $M_2$ need to be estimated for each vintage, and so does 
+%  the combined Model class. 
+% 
+%
+%%
+% Hence, Profor aims to replicate real-time model estimation and
+% combination exercises in a fairly straightforward manner.
+% 
+%
+%% Report Class
+%
+% Once all estimation, scoring and weighting are done, the researcher will
+% want to look at some output!
+% This is easy, simply supply the Report class with either individual Model
+% classes or Profor classes that have been estimated and used to produce
+% forecasts. 
+% 
+% See the help section on, 
+% <./mytbx_ch_6.html To Analyse Results, Construct a Report>, for more
+% information. 
+
+
+
+##### SOURCE END #####
+--></body></html>

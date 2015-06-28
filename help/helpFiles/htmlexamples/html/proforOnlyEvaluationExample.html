@@ -1,0 +1,209 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Work with Ragged Edge Data</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-04"><meta name="DC.source" content="proforOnlyEvaluationExample.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Work with Ragged Edge Data</h1><!--introduction--><p>This script shows how to use a PROFOR experiment for one model with ragged edge data. Since, the combined forecast and individual model forecast are the same, running a PROFOR experiment will estimate the individual model recursively, and then evaluate its forecast performance.</p><p>See the <a href="./proforExample.html">PROFOR Example</a> for background information.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">1) Initialise PROFOR</a></li><li><a href="#3">2) Set the path locations for PROFOR</a></li><li><a href="#6">3) Construct a batch file for a model</a></li><li><a href="#8">4) Construct a batch file for the combination</a></li><li><a href="#9">5) Run PROFOR</a></li><li><a href="#10">6) Check output</a></li></ul></div><p>See the <a href="matlab:edit(fullfile('proforOnlyEvaluationExample.m'))">matlab code</a> corresponding to this file to run the example directly in Matlab.</p><h2>1) Initialise PROFOR<a name="2"></a></h2><p>Initialise the profor object:</p><pre class="codeinput">p               = Profor;
+</pre><h2>2) Set the path locations for PROFOR<a name="3"></a></h2><pre class="codeinput"><span class="comment">% Set the directory in which to store the results:</span>
+p.savePath      = fullfile(proforStartup.pfRoot,<span class="string">'help'</span>,<span class="string">'helpFiles'</span>,<span class="string">'htmlexamples'</span>,<span class="string">'+results'</span>,<span class="string">'resultsOnlyEvaluation'</span>);
+</pre><p>Data location:</p><pre class="codeinput">loadDataPath     = proforStartup.pfRootHelpData;
+</pre><p>Set the directory where the the model setup files reside:</p><pre class="codeinput">p.modelSetupPath = fullfile(proforStartup.pfRoot,<span class="string">'help'</span>,<span class="string">'helpFiles'</span>,<span class="string">'htmlexamples'</span>,<span class="string">'+batchFiles'</span>,<span class="string">'batchFilesOnlyEvaluation'</span>);
+</pre><h2>3) Construct a batch file for a model<a name="6"></a></h2><p>Model is VAR(4):</p><pre class="codeinput">b               = Batchvar;
+b.nlag          = 4;
+</pre><p>The second time series  contains a ragged edge relative to gdp. The program handles this: for gdpctpi_missingValues, some of the forecasts made at particular vintages will be conditional forecasts.</p><pre class="codeinput">b.selectionY    = {<span class="string">'gdp'</span>, <span class="string">'gdpctpi_missingValues'</span>};
+b.sample        = <span class="string">'1980.01 -2010.01'</span>;
+b.freq          = <span class="string">'q'</span>;
+seti            = DataSetting;
+seti.doTransfTo = 3;
+b.dataSettings  = {seti, seti};
+b.dataPath      = loadDataPath;
+
+b.modelName     = <span class="string">'M2'</span>;
+b.savePath      = p.pathA;
+b.saveo;
+</pre><h2>4) Construct a batch file for the combination<a name="8"></a></h2><p>No combined forecast will be made, but the combination batch is still used to run the model recursively, and evaluate the model performance.</p><pre class="codeinput">b                                   = Batchcombination;
+b.selectionY                        = {<span class="string">'gdpctpi_missingValues'</span>};
+b.selectionA                        = {<span class="string">'M2'</span>};
+b.forecastSettings.nfor             = 4;
+b.sample                            = <span class="string">'2000.01-2004.01'</span>;
+b.freq                              = <span class="string">'q'</span>;
+
+b.densityScoreSettings.scoringMethods = {<span class="string">'logScoreD'</span>};
+
+b.simulationSettings.nSaveDraws     = 1000;
+b.simulationSettings.showProgress   = false;
+
+b.pathA                             = p.modelSetupPath;
+b.dataPath                          = loadDataPath;
+
+seti                                = DataSetting;
+seti.doTransfTo                     = 3;
+b.dataSettings                      = {seti};
+
+b.savePath      = p.pathA;
+b.saveo;
+</pre><h2>5) Run PROFOR<a name="9"></a></h2><p>When the two paths have been defined and set, run Profor. This command will then load each batch file (for the individual models), and estimate and forecast each model recursively through the defined sample. The sample, and other specific settings for the recursions are determined by the batch file for the combination.</p><pre class="codeinput">p.runProfor;
+</pre><pre class="codeoutput">Starting Profor computations:
+Estimating 1 model(s)
+Combining forecasts for 1 variable(s)
+100%[===================================================]
+Done with Profor computations
+</pre><h2>6) Check output<a name="10"></a></h2><p>No output is stored in p. prunProfor gives only information about the state of the program, i.e., if everything worked as intented or not.</p><pre class="codeinput"><span class="comment">% To access output, either go to the output folder directly (defined by</span>
+<span class="comment">% saveResultPath), or run Report(p)</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Work with Ragged Edge Data
+% This script shows how to use a PROFOR experiment for one model with
+% ragged edge data. Since, the combined forecast and individual model
+% forecast are the same, running a PROFOR experiment will estimate the
+% individual model recursively, and then evaluate its forecast performance.
+%
+% See the <./proforExample.html PROFOR Example> for background information.
+%
+%%
+% See the
+% <matlab:edit(fullfile('proforOnlyEvaluationExample.m')) matlab code> 
+% corresponding to this file to run the example directly in Matlab.
+%
+%% 1) Initialise PROFOR
+%
+% Initialise the profor object:
+p               = Profor;
+
+%% 2) Set the path locations for PROFOR
+
+% Set the directory in which to store the results:
+p.savePath      = fullfile(proforStartup.pfRoot,'help','helpFiles','htmlexamples','+results','resultsOnlyEvaluation');
+%%
+% Data location:
+loadDataPath     = proforStartup.pfRootHelpData;
+%%
+% Set the directory where the the model setup files reside:
+p.modelSetupPath = fullfile(proforStartup.pfRoot,'help','helpFiles','htmlexamples','+batchFiles','batchFilesOnlyEvaluation');
+
+%% 3) Construct a batch file for a model
+% Model is VAR(4):
+
+b               = Batchvar;
+b.nlag          = 4;
+%%
+% The second time series  contains a ragged edge relative to gdp. The
+% program handles this: for gdpctpi_missingValues, some of the forecasts made at
+% particular vintages will be conditional forecasts.
+b.selectionY    = {'gdp', 'gdpctpi_missingValues'};
+b.sample        = '1980.01 -2010.01'; 
+b.freq          = 'q';
+seti            = DataSetting;
+seti.doTransfTo = 3;
+b.dataSettings  = {seti, seti};
+b.dataPath      = loadDataPath;
+
+b.modelName     = 'M2';
+b.savePath      = p.pathA;
+b.saveo;
+
+%% 4) Construct a batch file for the combination
+% No combined forecast will be made, but the combination batch is
+% still used to run the model recursively, and evaluate the model performance.
+
+b                                   = Batchcombination;
+b.selectionY                        = {'gdpctpi_missingValues'};
+b.selectionA                        = {'M2'};
+b.forecastSettings.nfor             = 4;
+b.sample                            = '2000.01-2004.01';
+b.freq                              = 'q';
+
+b.densityScoreSettings.scoringMethods = {'logScoreD'};
+
+b.simulationSettings.nSaveDraws     = 1000;
+b.simulationSettings.showProgress   = false;
+
+b.pathA                             = p.modelSetupPath;
+b.dataPath                          = loadDataPath;
+
+seti                                = DataSetting;
+seti.doTransfTo                     = 3;
+b.dataSettings                      = {seti};
+
+b.savePath      = p.pathA;
+b.saveo;
+
+%% 5) Run PROFOR
+% When the two paths have been defined and set, run Profor.
+% This command will then load each batch file (for the individual models), and 
+% estimate and forecast each model recursively through the defined sample. The 
+% sample, and other specific settings for the recursions are determined by the 
+% batch file for the combination.
+p.runProfor;
+
+%% 6) Check output
+% No output is stored in p. prunProfor gives only information about the state of 
+% the program, i.e., if everything worked as intented or not.
+
+% To access output, either go to the output folder directly (defined by
+% saveResultPath), or run Report(p)
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,162 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PROFOR experiment with rolling windows</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-04"><meta name="DC.source" content="proforSimulatedDataExample.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>PROFOR experiment with rolling windows</h1><!--introduction--><p>This script defines a PROFOR experiment where two models are estimated recursively, and then evaluated and combined, recusively.</p><p>See the example proforExample for general information. Two differences between this example and the one described in proforExample are that here, the reseacher uses simulated data and rolling windows for combinations.</p><p>The data are supplied directly to the Profor object below (instead of reading from a file, as in <a href="./proforExample.html">PROFOR Example</a> ).</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">0) Initialise Profor</a></li><li><a href="#3">1) Set the path locations for profor</a></li><li><a href="#5">2) Construct batch files</a></li><li><a href="#7">3) Load data</a></li><li><a href="#9">4) Run experiment</a></li><li><a href="#10">5) Output</a></li></ul></div><p>See the <a href="matlab:edit(fullfile('proforSimulatedDataExample.m'))">matlab code</a> corresponding to this help file to run this example directly in MATLAB.</p><h2>0) Initialise Profor<a name="2"></a></h2><p>Initialize the profor object:</p><pre class="codeinput">p               = Profor;
+</pre><h2>1) Set the path locations for profor<a name="3"></a></h2><p>Set the directory in which to store the results:</p><pre class="codeinput">p.savePath      = fullfile(proforStartup.pfRoot,<span class="string">'help'</span>,<span class="string">'helpFiles'</span>,<span class="string">'htmlexamples'</span>,<span class="string">'+results'</span>,<span class="string">'resultsSimulatedData'</span>);
+</pre><p>Set the directory where the model setup files reside:</p><pre class="codeinput">p.modelSetupPath = fullfile(proforStartup.pfRoot,<span class="string">'help'</span>,<span class="string">'helpFiles'</span>,<span class="string">'htmlexamples'</span>,<span class="string">'+batchFiles'</span>,<span class="string">'batchFilesSimulatedData'</span>);
+</pre><h2>2) Construct batch files<a name="5"></a></h2><p>Batch files for the experiment have to be constructed:</p><pre class="codeinput">constructAndStoreBatchFilesSimulatedDataExample( p.pathA );
+</pre><p>To see how the various batch files are constructed -- in particular, the batch combination with rolling windows, navigate to <a href="./constructAndStoreBatchFilesSimulatedDataExample.html">Constructuing The Batch Files</a>.</p><h2>3) Load data<a name="7"></a></h2><p>In this case, load simulated data:</p><pre class="codeinput">load(fullfile(proforStartup.pfRootHelpData,<span class="string">'varData.mat'</span>));
+</pre><p>The data will still be transformed based on the settings in the individual batch files (when running the codes recursively). Note that PROFOR treats the sample (set in the batch for combination) as a real time vintage. When estimating the parameters recursively, the data will be truncated such that in each vintage dated t, the last observation will be t-1.</p><pre class="codeinput">p.data = d;
+</pre><h2>4) Run experiment<a name="9"></a></h2><p>The Profor command will then load each batch file (for the individual models), estimate and forecast each model recursively through the defined sample. The sample, and other specific settings for the recursions are determined by the batch file for the combination.</p><pre class="codeinput">p.runProfor;
+</pre><pre class="codeoutput">Starting Profor computations:
+Estimating 3 model(s)
+Combining forecasts for 1 variable(s)
+100%[===================================================]
+Done with Profor computations
+</pre><h2>5) Output<a name="10"></a></h2><p>No output is stored in p. This has information about the state of the program only, i.e., if everything worked as intended or not.</p><p>To access output, either go to the output folder directly (defined by saveResultPath), or run Report(p).</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% PROFOR experiment with rolling windows
+% This script defines a PROFOR experiment where two models are estimated 
+% recursively, and then evaluated and combined, recusively.
+%
+% See the example proforExample for general information. Two differences between 
+% this example and the one described in proforExample are that here, the reseacher
+% uses simulated data and rolling windows for combinations.
+%
+% The data are supplied directly to the Profor object below (instead of 
+% reading from a file, as in 
+% <./proforExample.html PROFOR Example>
+% ).
+%%
+% See the
+% <matlab:edit(fullfile('proforSimulatedDataExample.m')) matlab code> 
+% corresponding to this help file to run this example directly in MATLAB.
+%
+
+%% 0) Initialise Profor
+%
+% Initialize the profor object:
+
+p               = Profor;
+
+%% 1) Set the path locations for profor 
+%
+% Set the directory in which to store the results:
+
+p.savePath      = fullfile(proforStartup.pfRoot,'help','helpFiles','htmlexamples','+results','resultsSimulatedData');
+
+%%
+% Set the directory where the model setup files reside:
+
+p.modelSetupPath = fullfile(proforStartup.pfRoot,'help','helpFiles','htmlexamples','+batchFiles','batchFilesSimulatedData');
+
+%% 2) Construct batch files
+% Batch files for the experiment have to be constructed:
+
+constructAndStoreBatchFilesSimulatedDataExample( p.pathA );
+
+%%
+% To see how the various batch files are constructed REPLACE_WITH_DASH_DASH in particular, the batch
+% combination with rolling windows, navigate to 
+% <./constructAndStoreBatchFilesSimulatedDataExample.html Constructuing The Batch Files>.
+
+%% 3) Load data
+% In this case, load simulated data:
+
+load(fullfile(proforStartup.pfRootHelpData,'varData.mat'));
+%%
+% The data will still be transformed based on the settings in the
+% individual batch files (when running the codes recursively). Note that
+% PROFOR treats the sample (set in the batch for combination) as a real time 
+% vintage. When estimating the parameters recursively, the data will be
+% truncated such that in each vintage dated t, the last observation 
+% will be t-1. 
+
+p.data = d;
+
+%% 4) Run experiment
+% The Profor command will then load each batch file (for the individual models), 
+% estimate and forecast each model recursively through the defined sample. The 
+% sample, and other specific settings for the recursions are determined by the 
+% batch file for the combination.
+
+p.runProfor;
+
+%% 5) Output
+% No output is stored in p. This has information about the state
+% of the program only, i.e., if everything worked as intended or not. 
+%
+% To access output, either go to the output folder directly (defined by
+% saveResultPath), or run Report(p).
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

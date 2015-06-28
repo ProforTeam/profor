@@ -1,0 +1,96 @@
+X12DIAG03
+
+
+Purpose:
+
+    To create a summary of seasonal adjustment diagnostics for a given
+    X-12-ARIMA seasonal adjustment run or a set of seasonal adjustment
+    runs from a metafile using the unified diagnostics file from Version
+    0.3 of X-12-ARIMA.
+
+	This utility is a DOS utility - the examples below assume you are
+	running the utility within a DOS command window, and are running
+	the utility in the same directory that the utility is stored in.
+
+
+Syntax:
+
+    x12diag03 filename {-m or -d}
+
+    where:
+
+    filename is either the filename of a seasonal adjustment diagnostics file
+             stored by Version 0.3 of X-12-ARIMA, or a metafile or data
+             metafile used to generate seasonal adjustment diagnostics files.
+
+    -m denotes the filename specified in the first argument is a metafile
+       (optional).
+
+    -d denotes the filename specified in the first argument is a data
+       metafile (optional).
+
+
+Note:
+
+    The unified diagnostics file that is generated for Version 0.3 of
+    X-12-ARIMA has a file extension ".udg".  A metafile has a file 
+    extension of ".mta".  A data metafile has a file extension of ".dta".  
+    These file extensions should not be included in the first argument -
+    only the filename.
+
+    For this program to successfully produce a seasonal adjustment
+    diagnostic summary, Version 0.3 of X-12-ARIMA must first be
+    executed with the -s flag.  This produces a seasonal adjustment
+    diagnostic file that X12DIAG reads to produce the summary.
+
+    For example, executing
+
+         x12a ussales -s
+
+    produces the seasonal adjustment diagnostic file ussales.xdg, and 
+    then 
+
+         x12diag ussales
+
+    produces the diagnostic summary file ussales.x2d.
+
+    Similarly for metafiles, running
+
+         x12a -m usbp -s
+
+    produces a seasonal adjustment diagnostic file for each input
+    specification file specified in usbp.mta, and then
+
+         x12diag usbp -m
+
+    produces diagnostic summary files from each seasonal adjustment
+    diagnostic file.
+
+	Note that a window will open upon program execution to display
+	the progress of the run.  When the program is finished executing,
+	striking any key will close the window.
+
+    This program was written with the Icon programming language, 
+    with special routines provided by the Icon program library.  
+    For more information on Icon, see "The Icon Programming Language, 
+    Third Edition" by Ralph E. Griswold and Madge T. Griswold,
+    published by Peer-to-Peer Communications. 
+    
+    The source code for this program is available upon request.
+
+
+Support:
+
+    Contact Brian C. Monsell at any one of the following:
+
+    Email:   brian.c.monsell@census.gov
+    Fax:     (301) 763-8399
+    Phone:   (301) 763-1721 (or 301-763-1649)
+    Address: Statistical Research Division
+             U. S. Census Bureau
+             4600 Silver Hill Road
+             Washington, DC  20233
+
+
+Revision Date : May 2, 2007
+

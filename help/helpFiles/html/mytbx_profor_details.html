@@ -1,0 +1,192 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Profor Class Details</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-25"><meta name="DC.source" content="mytbx_profor_details.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Profor Class Details</h1><!--introduction--><p>Some more details on the structure of the Profor class.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Profor</a></li></ul></div><h2>Profor<a name="1"></a></h2><p>For reference, here is the stucture of the model class again:</p><p><img vspace="5" hspace="5" src="img/model_with_forecasting.png" alt=""> </p><p>Profor is essentially a wrapper class for estimating models recursively across a given sample, evaluating forecasts (Tsdataforecast), stored in predictionsY, and also combining these forecasts across models to produce new forecasts with various scoring methods.</p><p><img vspace="5" hspace="5" src="img/profor_with_folders.png" alt=""> </p><p><b>Profor.savePath</b></p><p>This is where the estimation and combination results of the individual models are stored. The researcher can see two models (M1, M2) and the combination (combination_gdp). The parameter estimation in this case uses vintages 2000.01-2002.01. See Batchcombination for a description of how this is set-up.</p><p><b>Profor.modelSetupPath</b></p><p>In this folder reside the batch files for all the models, and an additional batch file to control the combination / evaluation (Batchcombination). This last file has to be named Combo.</p><p><b>Profor.doModels</b></p><p>This is a logical variable and if toggled to true, PROFOR takes the evaluation sample from Batchcombination object saved in the Profor.modelSetupPath directory, each model will be estimated recursively over this sample. If not, estimation is skipped.</p><p>The start date of the estimation sample for each model is taken from the Batch object for each individual model.</p><p>If the researcher supplies a path to a data source in Batchcombination.dataPath, then PROFOR will look into this folder for a corresponding real-time data set to the variables in Profor.selectionY. If found, it will find the vintage of data closest to the requested evaluation sample date and use this for estimation.</p><p><img vspace="5" hspace="5" src="img/profor_timeline.png" alt=""> </p><p>If no Batchcombination.dataPath is supplied, the Profor.data must be supplied with a Tsdata object containing the series in Profor.selectionY. Profor is hard coded in this case to truncate the data with a one period lag over the evaluation sample to mimic a real-time data set.</p><p>The results of this recursive estimation will generate the same number of Model objects as the number of evaluation periods. The results of the forecasts are stored within this model in the property forecasting as a Tsdataforecast object. You can see these models in the Profor.savePath.</p><p><b>Profor.doCombination</b></p><p>Profor.doCombination is a logical variable and if toggled to true, PROFOR will take all of the models supplied in Batchcombination.sampleA and evaulate these models with a given scoring method for each variable in Batchcombintation.selctionY across the evaluation sample.</p><p>Each Tsdataforecast object at each vintage over the evaluation sample for each model is re-loaded. Then, the forecasts are extracted from the forecasting property, in which the scores are also included. The models are then combined according to the weighting mechanism specified. The combined forecasts are stored in the same forecasting property of the Batchcombination model class. The scores from each individual model are stored in Estimation.resultCell.</p><p>This is repeated recursively over the estimation sample and the results are stored in a similar folder structure for each variable in the Profor.savePath directory.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Profor Class Details
+% Some more details on the structure of the Profor class.
+% 
+%% Profor
+% For reference, here is the stucture of the model class again:
+%%
+% <<img/model_with_forecasting.png>>
+%
+%%
+% Profor is essentially a wrapper class for estimating models recursively across 
+% a given sample, evaluating forecasts (Tsdataforecast), stored in predictionsY, 
+% and also combining these forecasts across models to produce new forecasts with
+% various scoring methods.
+% 
+% 
+% <<img/profor_with_folders.png>>
+% 
+%%
+% *Profor.savePath*
+% 
+% This is where the estimation and combination results of the individual models 
+% are stored. The researcher can see two models (M1, M2) and the combination 
+% (combination_gdp). 
+% The parameter estimation in this case uses vintages 2000.01-2002.01. 
+% See Batchcombination for a description of how this is set-up. 
+% 
+%%
+% 
+% *Profor.modelSetupPath*
+% 
+% In this folder reside the batch files for all the models, and an additional 
+% batch file to control the combination / evaluation (Batchcombination). This 
+% last file has to be named Combo.
+%%
+% *Profor.doModels*
+% 
+% This is a logical variable and if toggled to true, PROFOR takes the evaluation
+% sample from Batchcombination object saved in the Profor.modelSetupPath 
+% directory, each model will be estimated recursively over this sample. If
+% not, estimation is skipped. 
+% 
+% The start date of the estimation sample for each model is taken from
+% the Batch object for each individual model. 
+%  
+% If the researcher supplies a path to a data source in Batchcombination.dataPath,
+% then PROFOR will look into this folder for a corresponding real-time data set
+% to the variables in Profor.selectionY. 
+% If found, it will find the vintage of data closest to the requested evaluation 
+% sample date and use this for estimation. 
+%%
+% <<img/profor_timeline.png>>
+%%
+% If no Batchcombination.dataPath is supplied, the Profor.data must be supplied
+% with a Tsdata object containing the series in Profor.selectionY.
+% Profor is hard coded in this case to truncate the data with a one period lag
+% over the evaluation sample to mimic a real-time data set. 
+% 
+% The results of this recursive estimation will generate the same number of Model
+% objects as the number of evaluation periods. 
+% The results of the forecasts are stored within this model in the property 
+% forecasting as a Tsdataforecast object.
+% You can see these models in the Profor.savePath.
+% 
+%%
+% *Profor.doCombination*
+% 
+% Profor.doCombination is a logical variable and if toggled to true, PROFOR will
+% take all of the models supplied in Batchcombination.sampleA and 
+% evaulate these models with a given scoring method for each variable in
+% Batchcombintation.selctionY across the evaluation sample. 
+% 
+% Each Tsdataforecast object at each
+% vintage over the evaluation sample for each model is re-loaded.
+% Then, the forecasts are extracted from the forecasting property, in which the 
+% scores are also included. 
+% The models are then combined according to the weighting mechanism specified.
+% The combined forecasts are stored in the same forecasting
+% property of the Batchcombination model class.
+% The scores from each individual model are stored in Estimation.resultCell. 
+% 
+% This is repeated recursively over the estimation sample and the results are
+% stored in a similar folder structure for each variable in the Profor.savePath
+% directory. 
+% 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,724 @@
+Library {
+  Name			  "JavaBoxLibrary"
+  Version		  6.0
+  SavedCharacterEncoding  "ibm-5348_P100-1997"
+  SaveDefaultBlockParams  on
+  LibraryLinkDisplay	  "none"
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Mon Jul 12 12:36:08 2004"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "BrownM5"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon Jul 12 12:40:04 2004"
+  ModelVersionFormat	  "1.%<AutoIncrement:1>"
+  ConfigurationManager	  "None"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  ProdHWDeviceType	  "32-bit Generic"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.0.4"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.0.4"
+	  StartTime		  "0.0"
+	  StopTime		  "10.0"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "ode45"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.0.4"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  on
+	  SaveState		  off
+	  SaveTime		  on
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.4"
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  ConditionalExecOptimization "on_for_testing"
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.0.4"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.0.4"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.0.4"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.0.4"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		9
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.4"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      CustomSymbolStr	      "$R$N$M"
+	      MangleLength	      1
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		12
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.0.4"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      EnablePort
+      StatesWhenEnabling      "held"
+      ShowOutputPort	      off
+      ZeroCross		      on
+    }
+    Block {
+      BlockType		      Inport
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      PortCounts	      "[]"
+      SFunctionModules	      "''"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "JavaBoxLibrary"
+    Location		    [82, 110, 326, 347]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      "Enabled\nSubsystem"
+      Ports		      [1, 0, 1]
+      Position		      [80, 113, 155, 157]
+      BackgroundColor	      "yellow"
+      ShowName		      off
+      TreatAsAtomicUnit	      on
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      MaskType		      "Java Display Box"
+      MaskDescription	      "Displays formatted text and numeric data to an "
+"editable Java window.\n\"Display Number\" is a positive integer which specifi"
+"es the Java window to receive the formatted output. Seven format strings cont"
+"rol the appearance of the output during block initialization, update, and ter"
+"mination.  These strings can contain any combination of text and format speci"
+"fiers acceptable to the Matlab FPRINTF function.\n\nSee HELP for more informa"
+"tion."
+      MaskHelp		      "<HTML>\n\n<head>\n<TITLE>Java Display Box</TITL"
+"E>\n</head>\n\n<body>\n\n<h2>Function</h2>\nDisplays formatted text and numer"
+"ic data to an editable Java window.\n\"Display Number\" is a positive integer"
+" which specifies the Java window to receive the \nformatted output. Seven for"
+"mat strings control the appearance of the output during \nblock initializatio"
+"n, update, and termination.  These strings can contain any combination \nof t"
+"ext and format specifiers acceptable to the Matlab FPRINTF function.\n\n<h2>I"
+"nputs</h2>\nJava Display Box accepts any Simulink scalar, vector, or matrix s"
+"ignal.  The signal \nmust be real and double precision.  It is up to the user"
+" to perform data type conversion \n(e.g. int8 to double) and to break apart c"
+"omplex signals into separate real and \nimaginary parts.  This function will "
+"accept multiplexed signals and bus signals.  When \ndisplaying matrix signals"
+", Java Display Box will access the matrix data in columnwise \norder, so you "
+"may need to transpose the matrix to display the matrix in it's natural \norie"
+"ntation.\n\n<h2>Parameters</h2>\n\n<h3>Display Number:</h3>\nThe display numb"
+"er is a numeric identifier for each active Java Display Box.  Any \npositive "
+"integer greater than zero is acceptable.  If you want the outputs to go do \n"
+"different windows, use differerent Display Numbers for each Java Display Box."
+"  \nYou can send multiple signals to the same window by using the same Displa"
+"y \nNumber.  In this case, the order in which the output is written to the bo"
+"x depends on \nSimulink's execution order, called Sorted Order.  You can forc"
+"e multiple outputs to be \ndisplayed in any desired sequence by overriding Si"
+"mulink's Sorted Order using the \nblock priority property.  To change a Java "
+"Display Box priority, right-click the Java Box, \nselect Block  Properties, a"
+"nd enter a numeric value for Block Priority.  The lower the \nnumber, the hig"
+"her the priority, so a good rule of thumb is to assign priorities in the \nor"
+"der in which  you want the output to appear in the Java Display Box.\n<br><br"
+">\nNote that multiple models share the same set of Java Display Boxes, so if "
+"you have \nmore than one model open and those models all access Display Box 1"
+", then the \noutputs from both models will appear in the same display window."
+"\n<br><br>\nIf you set the Display Number to -1, the outputs will go to the "
+"\"standard output\", normally \nthe Matlab command window.  A Display Number "
+"of -2 will send output to \"standard \nerror\", and a Display Number consisti"
+"ng of a valid handle to an open file will cause \nthe output to be written to"
+" the file.  The user is responsible for opening and closing \nthe file, and p"
+"assing the file handle to Java Display Box.\n\n<h3>Initialization Format:</h3"
+">\nThe initialization format string is written once during model initializati"
+"on.  Enter any valid \nformat string (without quotation marks!).  Note that d"
+"uring initialization, the input signal \nvalues are generally undefined, so i"
+"t is not possible to display numeric values of input \nsignals during initial"
+"ization.  The Initialization Format is generally useful for printing \ncolumn"
+" headers or other delimiters to mark the beginning of a simulation run.  If y"
+"ou \ndon't want any initialization format, leave this field completely blank "
+"(i.e. no spaces or \nother characters).\n\n<h3>Update Format:</h3>\nThe updat"
+"e format strings consist of three parts:  Leader Format, Numeric Format, and "
+"\nTrailer Format.  At each Simulink update time step, the Leader Format is fi"
+"rst written \nonce.  Then the Numeric Format is applied to the input signal d"
+"ata, and repeated as \nnecessary to display all of the inputs.  Finally, the "
+"Trailer Format is written.  Typically, \nthe Leader Format contains textual i"
+"nformation, such as 'Signal Amplitude = ', the \nNumeric Format contains numb"
+"er formatting strings such as '%6.4f', and the Trailer \nFormat contains unit"
+"s and carriage controls such as '(volts)\\n'.  \n\n<br><br>Be carefull!  If y"
+"ou have a lengthy simulation, or one that involves many time \nsteps, you can"
+" overrun the display memory.  If this is a possibility, consider using a \ndo"
+"wnsampler block in front of the Java Display Box, or enclose it in a triggere"
+"d \nsubsystem so that only selected time samples are displayed.  If you don't"
+" want a \nLeader, Numeric, or Trailer format, leave the field completely blan"
+"k.\n\n<h3>Termination Format:</h3>\nThe termination format string consists of"
+" three parts:  Leader Format, Numeric Format, \nand Trailer Format.   These t"
+"hree formats are applied once at the end of a Simulink \nsimulation run.   Fi"
+"rst, the Leader Format is written once.  Then the Numeric Format is \napplied"
+" to the input signal data, and repeated as necessary to display all of the in"
+"puts.  \nFinally, the Trailer Format is written.  Typically, the Leader Forma"
+"t contains textual \ninformation, such as 'Signal Amplitude = ', the Numeric "
+"Format contains number \nformatting strings such as '%6.4f', and the Trailer "
+"Format contains units and carriage \ncontrols such as '(volts)\\n'.  These fo"
+"rmats are useful if you only want to display the \nfinal values of signals at"
+" the end of simulation.  You can also use these fields to print \nsummary inf"
+"ormation, or model termination status.  If you don't want a Leader, \nNumeric"
+", or Trailer format, leave the field completely blank.\n\n<h2>Java Display Bo"
+"x Menu:</h2>\nThese are fairly self-explanatory.  See HELP on the Java Box pu"
+"lldown menu for more information.\n\n</body>\n\n</html>\n"
+      MaskPromptString	      "Display number|Initialization format|Update lea"
+"der format|Update numeric format|Update trailer format|Termination leader for"
+"mat|Termination numeric format|Termination trailer format"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,"
+      MaskVariables	      "dev=@1;fmt1=&2;fmt2=&3;fmt3=&4;fmt4=&5;fmt5=&6;"
+"fmt6=&7;fmt7=&8;"
+      MaskDisplay	      "fprintf('Enabled\\nJava Box %d',dev)"
+      MaskIconFrame	      off
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "1|||||||"
+      MaskTabNameString	      ",,,,,,,"
+      System {
+	Name			"Enabled\nSubsystem"
+	Location		[74, 310, 387, 511]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [55, 98, 85, 112]
+	  Port			  "1"
+	  IconDisplay		  "Port number"
+	  LatchInput		  off
+	}
+	Block {
+	  BlockType		  EnablePort
+	  Name			  "Enable"
+	  Ports			  []
+	  Position		  [105, 25, 125, 45]
+	}
+	Block {
+	  BlockType		  "S-Function"
+	  Name			  "S-Function2"
+	  Ports			  [1]
+	  Position		  [130, 86, 195, 124]
+	  BackgroundColor	  "yellow"
+	  ShowName		  off
+	  Priority		  "4"
+	  FunctionName		  "jprintsfun"
+	  Parameters		  "dev,{fmt1,fmt2,fmt3,fmt4,fmt5,fmt6,fmt7}"
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "S-Function2"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      "S-Function"
+      Name		      "S-Function3"
+      Ports		      [1]
+      Position		      [85, 41, 150, 79]
+      BackgroundColor	      "yellow"
+      ShowName		      off
+      Priority		      "4"
+      FunctionName	      "jprintsfun"
+      Parameters	      "dev,{fmt1,fmt2,fmt3,fmt4,fmt5,fmt6,fmt7}"
+      MaskType		      "Java Display Box"
+      MaskDescription	      "Displays formatted text and numeric data to an "
+"editable Java window.\n\"Display Number\" is a positive integer which specifi"
+"es the Java window to receive the formatted output. Seven format strings cont"
+"rol the appearance of the output during block initialization, update, and ter"
+"mination.  These strings can contain any combination of text and format speci"
+"fiers acceptable to the Matlab FPRINTF function.\n\nSee HELP for more informa"
+"tion."
+      MaskHelp		      "<HTML>\n\n<head>\n<TITLE>Java Display Box</TITL"
+"E>\n</head>\n\n<body>\n\n<h2>Function</h2>\nDisplays formatted text and numer"
+"ic data to an editable Java window.\n\"Display Number\" is a positive integer"
+" which specifies the Java window to receive the \nformatted output. Seven for"
+"mat strings control the appearance of the output during \nblock initializatio"
+"n, update, and termination.  These strings can contain any combination \nof t"
+"ext and format specifiers acceptable to the Matlab FPRINTF function.\n\n<h2>I"
+"nputs</h2>\nJava Display Box accepts any Simulink scalar, vector, or matrix s"
+"ignal.  The signal \nmust be real and double precision.  It is up to the user"
+" to perform data type conversion \n(e.g. int8 to double) and to break apart c"
+"omplex signals into separate real and \nimaginary parts.  This function will "
+"accept multiplexed signals and bus signals.  When \ndisplaying matrix signals"
+", Java Display Box will access the matrix data in columnwise \norder, so you "
+"may need to transpose the matrix to display the matrix in it's natural \norie"
+"ntation.\n\n<h2>Parameters</h2>\n\n<h3>Display Number:</h3>\nThe display numb"
+"er is a numeric identifier for each active Java Display Box.  Any \npositive "
+"integer greater than zero is acceptable.  If you want the outputs to go do \n"
+"different windows, use differerent Display Numbers for each Java Display Box."
+"  \nYou can send multiple signals to the same window by using the same Displa"
+"y \nNumber.  In this case, the order in which the output is written to the bo"
+"x depends on \nSimulink's execution order, called Sorted Order.  You can forc"
+"e multiple outputs to be \ndisplayed in any desired sequence by overriding Si"
+"mulink's Sorted Order using the \nblock priority property.  To change a Java "
+"Display Box priority, right-click the Java Box, \nselect Block  Properties, a"
+"nd enter a numeric value for Block Priority.  The lower the \nnumber, the hig"
+"her the priority, so a good rule of thumb is to assign priorities in the \nor"
+"der in which  you want the output to appear in the Java Display Box.\n<br><br"
+">\nNote that multiple models share the same set of Java Display Boxes, so if "
+"you have \nmore than one model open and those models all access Display Box 1"
+", then the \noutputs from both models will appear in the same display window."
+"\n<br><br>\nIf you set the Display Number to -1, the outputs will go to the "
+"\"standard output\", normally \nthe Matlab command window.  A Display Number "
+"of -2 will send output to \"standard \nerror\", and a Display Number consisti"
+"ng of a valid handle to an open file will cause \nthe output to be written to"
+" the file.  The user is responsible for opening and closing \nthe file, and p"
+"assing the file handle to Java Display Box.\n\n<h3>Initialization Format:</h3"
+">\nThe initialization format string is written once during model initializati"
+"on.  Enter any valid \nformat string (without quotation marks!).  Note that d"
+"uring initialization, the input signal \nvalues are generally undefined, so i"
+"t is not possible to display numeric values of input \nsignals during initial"
+"ization.  The Initialization Format is generally useful for printing \ncolumn"
+" headers or other delimiters to mark the beginning of a simulation run.  If y"
+"ou \ndon't want any initialization format, leave this field completely blank "
+"(i.e. no spaces or \nother characters).\n\n<h3>Update Format:</h3>\nThe updat"
+"e format strings consist of three parts:  Leader Format, Numeric Format, and "
+"\nTrailer Format.  At each Simulink update time step, the Leader Format is fi"
+"rst written \nonce.  Then the Numeric Format is applied to the input signal d"
+"ata, and repeated as \nnecessary to display all of the inputs.  Finally, the "
+"Trailer Format is written.  Typically, \nthe Leader Format contains textual i"
+"nformation, such as 'Signal Amplitude = ', the \nNumeric Format contains numb"
+"er formatting strings such as '%6.4f', and the Trailer \nFormat contains unit"
+"s and carriage controls such as '(volts)\\n'.  \n\n<br><br>Be carefull!  If y"
+"ou have a lengthy simulation, or one that involves many time \nsteps, you can"
+" overrun the display memory.  If this is a possibility, consider using a \ndo"
+"wnsampler block in front of the Java Display Box, or enclose it in a triggere"
+"d \nsubsystem so that only selected time samples are displayed.  If you don't"
+" want a \nLeader, Numeric, or Trailer format, leave the field completely blan"
+"k.\n\n<h3>Termination Format:</h3>\nThe termination format string consists of"
+" three parts:  Leader Format, Numeric Format, \nand Trailer Format.   These t"
+"hree formats are applied once at the end of a Simulink \nsimulation run.   Fi"
+"rst, the Leader Format is written once.  Then the Numeric Format is \napplied"
+" to the input signal data, and repeated as necessary to display all of the in"
+"puts.  \nFinally, the Trailer Format is written.  Typically, the Leader Forma"
+"t contains textual \ninformation, such as 'Signal Amplitude = ', the Numeric "
+"Format contains number \nformatting strings such as '%6.4f', and the Trailer "
+"Format contains units and carriage \ncontrols such as '(volts)\\n'.  These fo"
+"rmats are useful if you only want to display the \nfinal values of signals at"
+" the end of simulation.  You can also use these fields to print \nsummary inf"
+"ormation, or model termination status.  If you don't want a Leader, \nNumeric"
+", or Trailer format, leave the field completely blank.\n\n<h2>Java Display Bo"
+"x Menu:</h2>\nThese are fairly self-explanatory.  See HELP on the Java Box pu"
+"lldown menu for more information.\n\n</body>\n\n</html>\n"
+      MaskPromptString	      "Display number|Initialization format|Update lea"
+"der format|Update numeric format|Update trailer format|Termination leader for"
+"mat|Termination numeric format|Termination trailer format"
+      MaskStyleString	      "edit,edit,edit,edit,edit,edit,edit,edit"
+      MaskTunableValueString  "off,off,off,off,off,off,off,off"
+      MaskCallbackString      "|||||||"
+      MaskEnableString	      "on,on,on,on,on,on,on,on"
+      MaskVisibilityString    "on,on,on,on,on,on,on,on"
+      MaskToolTipString	      "on,on,on,on,on,on,on,on"
+      MaskVarAliasString      ",,,,,,,"
+      MaskVariables	      "dev=@1;fmt1=&2;fmt2=&3;fmt3=&4;fmt4=&5;fmt5=&6;"
+"fmt6=&7;fmt7=&8;"
+      MaskDisplay	      "disp(['Java Box ',num2str(dev)])"
+      MaskIconFrame	      off
+      MaskIconOpaque	      on
+      MaskIconRotate	      "none"
+      MaskIconUnits	      "autoscale"
+      MaskValueString	      "1|||||||"
+      MaskTabNameString	      ",,,,,,,"
+    }
+  }
+}

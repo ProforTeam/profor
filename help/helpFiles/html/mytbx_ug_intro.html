@@ -1,0 +1,118 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>User guide</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-28"><meta name="DC.source" content="mytbx_ug_intro.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>User guide</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Thanks</a></li><li><a href="#2">Introduction</a></li></ul></div><h2>Thanks<a name="1"></a></h2><p><b>The PROFOR team would like to thank Norges Bank, the Bank of England and Warwick Business School for supporting this project.</b></p><h2>Introduction<a name="2"></a></h2><p>The PRObability FORecasting (PROFOR) toolbox is part of a research project on Probability Forecasting with Macro Variables at Warwick Business School, University of Warwick. The main purpose of the project is to develop, extend and apply procedures to undertake probability forecasting with macro variables. In particular, the toolbox incorporates forecasting models and methods for combining forecasts, together with forecast evaluation metrics.</p><p>This is a demo version of PROFOR. Subsequent versions will incorporate methods for mixed frequencies, plus non-linear and non-Gaussian processes.</p><p>The demo PROFOR toolbox runs in MATLAB R2014a and R2014b.</p><p>By facilitating code and data sharing, the aim is to make the PROFOR toolbox the starting point for graduate researchers and others wishing to learn advanced probability forecasting techniques.</p><p>The PROFOR toolbox, intended as a research tool, provides code useful for researchers wishing to develop a practical forecasting system. Adaptation to this end requires further modifications to the demo version.</p><p>The PROFOR development team are: Shaun Vahey (Warwick), Anthony Garratt (Warwick), Liz Wakerly (Warwick), Craig Thamotheram  (Warwick) and Leif Anders Thorsrud (BI).</p><p>Please contact us via <a href="mailto:probabilityforecastingconsult@gmail.com">probabilityforecastingconsult@gmail.com</a></p><p>For consulting services, including bespoke courses, please see <a href="http://probabilityforecas.wix.com//pfconsulting">http://probabilityforecas.wix.com//pfconsulting</a></p><p>Edit the <a href="matlab:edit(fullfile('mytbx_ug_intro.m'))">matlab code</a> corresponding to this html file by clicking on this link to update documentation.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% User guide
+
+%% Thanks
+%
+% *The PROFOR team would like to thank Norges Bank, the Bank of England and 
+% Warwick Business School for supporting this project.*
+
+%% Introduction 
+%
+% The PRObability FORecasting (PROFOR) toolbox is part of a research project on
+% Probability Forecasting with Macro Variables at Warwick Business School, 
+% University of Warwick. The main purpose of the project is to develop, extend 
+% and apply procedures to undertake probability forecasting with macro variables. 
+% In particular, the toolbox incorporates forecasting models and methods for 
+% combining forecasts, together with forecast evaluation metrics. 
+% 
+% This is a demo version of PROFOR. Subsequent 
+% versions will incorporate methods 
+% for mixed frequencies, plus non-linear and non-Gaussian processes. 
+%
+% The demo PROFOR toolbox runs in MATLAB R2014a and R2014b.
+%
+% By facilitating code and data sharing, the aim is to make the PROFOR toolbox 
+% the starting point for graduate researchers and others wishing to learn 
+% advanced probability forecasting techniques. 
+%
+% The PROFOR toolbox, intended as a research tool, provides  
+% code useful for researchers wishing to develop a practical 
+% forecasting system. Adaptation to this end requires further modifications to 
+% the demo version. 
+%
+% The PROFOR development team are: Shaun Vahey (Warwick), Anthony 
+% Garratt (Warwick), Liz Wakerly (Warwick), Craig Thamotheram  (Warwick) 
+% and Leif Anders Thorsrud (BI).
+%
+% Please contact us via probabilityforecastingconsult@gmail.com
+%
+% For consulting services, including bespoke courses, please see
+% http://probabilityforecas.wix.com//pfconsulting
+%
+%
+%%
+% Edit the 
+% <matlab:edit(fullfile('mytbx_ug_intro.m')) matlab code> 
+% corresponding to this html file by clicking on this link to update
+% documentation.
+##### SOURCE END #####
+--></body></html>

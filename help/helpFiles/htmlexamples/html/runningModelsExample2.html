@@ -1,0 +1,360 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>BVAR Example</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-05-29"><meta name="DC.source" content="runningModelsExample2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>BVAR Example</h1><!--introduction--><p>This script shows how a simple BVAR model can be set up and estimated using the Model framework of the PROFOR Toolbox.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">1) Load data</a></li><li><a href="#3">2) Initializing a Model object</a></li><li><a href="#7">3) Setting Tsdata</a></li><li><a href="#8">4) Setting the Batch</a></li><li><a href="#11">5) Running the Model</a></li><li><a href="#13">6) Looking at the output</a></li><li><a href="#16">7) Run the model with a different set of priors</a></li></ul></div><p>See the <a href="matlab:edit(fullfile('runningModelsExample2.m'))">matlab code</a> corresponding to this help file to run examples directly in MATLAB.</p><h2>1) Load data<a name="2"></a></h2><p>First, we load some simulated data, stored as Tsdata objects.</p><pre class="codeinput">load(fullfile(proforStartup.pfRootHelpData,<span class="string">'varData.mat'</span>));
+</pre><h2>2) Initializing a Model object<a name="3"></a></h2><p>All individual time series models supported by the PROFOR Toolbox can be initialized as follows:</p><pre class="codeinput">m = Model(<span class="string">'bvar'</span>);
+</pre><p>Here, the input 'bvar' defines that the researcher wishes to work with a BVAR.</p><p>The instance of the BVAR Model class is 'm'. 'm' works as a container for all the information we have about (and will put into) our model, i.e.:</p><pre class="codeinput">m
+</pre><pre class="codeoutput">
+m = 
+
+  Model with properties:
+
+                data: [1x1 Tsdata]
+            savePath: []
+          estimation: [1x1 Estimation]
+            forecast: [1x1 Forecasting]
+                time: '29-May-2015'
+           ttElapsed: []
+              method: 'bvar'
+               state: 0
+    supportedMethods: {1x9 cell}
+
+</pre><p>Typing 'm.state' will give the state of the Model object.  Before estimation and forecasting, this state has to be 'true' (MATLAB logical), i.e. 1.</p><pre class="codeinput">m.state
+</pre><pre class="codeoutput">
+ans =
+
+     0
+
+</pre><h2>3) Setting Tsdata<a name="7"></a></h2><p>The only Model properties set directly are the data and batch properties.</p><p>First, supply data to the model. The estimation and forecasting properties are populated when the model is estimated and then used to forecast.</p><p>To supply the model with data, type:</p><pre class="codeinput">m.data = d;
+</pre><h2>4) Setting the Batch<a name="8"></a></h2><p>The Model also needs some information about the estimation method, the variables to include, the sample used for parameter estimation, etc.  For most settings, there are defaults, but some have to be set by the researcher.</p><p>In the following example, the first three settings relate to the number of lags, the sample for parameter estimation and the frequency of the data. The subsequent settings are:</p><p>(i) 'selectionY' which defines the endogenous variables in the Model. These will be supplied in the order in which they are specified.</p><p>(ii) 'forecastSettings.nfor' which defines the (longest) forecasting horizon.</p><pre class="codeinput">m.batch.nlag                                = 1;
+m.batch.sample                              = <span class="string">'1985.01 - 2004.03'</span>;
+m.batch.freq                                = <span class="string">'q'</span>;
+m.batch.selectionY                          = {<span class="string">'y1'</span>,<span class="string">'y2'</span>};
+m.batch.forecastSettings.nfor               = 4;
+</pre><p>The simulationSettings defines the number of draws employed to construct the posterier etc. The nburn property of simulationSettings defines the burn-in.</p><pre class="codeinput">m.batch.simulationSettings.nSaveDraws       = 1000;
+m.batch.simulationSettings.nBurnin          = 100;
+</pre><p>The priors are set and saved in b.priorSettings. Since the state space system is the default, the priorSettings have twoo "fields" .tr and .obs: transition equation and observation equation. For a BVAR the obs is redundant, so the researcher only needs to care about the .tr "field" The .tr "field" has four properties v, V, T, and Q. v is the degress of freedom (or weight put on the prior), V is the covariance among the parameters of the BVAR (the T matrix), T is the mean of the parameters, and Q is the mean of the covariance of the errors.</p><pre class="codeinput">m.batch.priorSettings.tr.v = 200;
+m.batch.priorSettings.tr.V = diag(repmat(0.05,[6 1]));
+m.batch.priorSettings.tr.T = [0 0.9 0;
+                              0 0 0.9];
+m.batch.priorSettings.tr.Q = [0.5 0;0 0.5];
+</pre><h2>5) Running the Model<a name="11"></a></h2><p>When the state of the batch file is 'true' (you can check this by typing 'm.batch.state'), the research can run the model.</p><pre class="codeinput">m.runModel
+</pre><pre class="codeoutput">Starting model M1 computation
+Starting BVAR estimation
+Starting gibbs sampler
+Total number of iterations is: 1100. Every 1 iteration is used. Burninn is: 100
+100%[===================================================]
+Starting BVAR forecast
+Done with M1 computation
+</pre><p>If the 'm.batch.state' had been false (or the 'm.state' had been false), the Model won't run.</p><h2>6) Looking at the output<a name="13"></a></h2><p>Once the Model has completed estimation and forecasting, 'm.estimation' and 'm.forecasting' are populated with output.</p><pre class="codeinput">m.estimation
+</pre><pre class="codeoutput">
+ans = 
+
+  Estimation with properties:
+
+               tElapsed: 3.7394
+                 sample: '1984.04 - 2005.03'
+        estimationDates: [80x1 double]
+                   freq: 'q'
+                   nlag: 1
+                 method: 'bvar'
+                 namesY: [1x1 CellObj]
+                 namesX: [1x1 CellObj]
+                 namesA: [1x1 CellObj]
+                      y: [84x2 double]
+                      x: []
+                      A: [1x1 ParameterMatrix]
+                      T: [1x1 ParameterMatrix]
+                      C: [1x1 ParameterMatrix]
+                      Q: [1x1 ParameterMatrix]
+                      R: [1x1 ParameterMatrix]
+                      D: [1x1 ParameterMatrix]
+                      Z: [1x1 ParameterMatrix]
+                      H: [1x1 ParameterMatrix]
+                      P: [1x1 ParameterMatrix]
+                      u: [80x2 double]
+                     uS: [80x2x1000 double]
+                      e: []
+                     eS: []
+                     yS: [80x2x1000 double]
+                      W: [1x1 ParameterMatrix]
+                      S: [1x1 ParameterMatrix]
+                      B: [1x1 ParameterMatrix]
+                      V: [1x1 ParameterMatrix]
+                      G: [1x1 ParameterMatrix]
+     simulationSettings: [1x1 SimulationSetting]
+        generalSettings: [1x1 GeneralSetting]
+          priorSettings: [1x1 PriorSetting]
+    modelSpecificOutput: []
+                  dates: [84x1 double]
+       estimationSample: '1985.01 - 2004.04'
+
+</pre><pre class="codeinput">m.forecast
+</pre><pre class="codeoutput">
+ans = 
+
+  Forecasting with properties:
+
+          method: 'bvar'
+    predictionsA: [1x2 TsdataForecast]
+    predictionsY: [1x2 TsdataForecast]
+        tElapsed: 1.0760
+
+</pre><p>To obtain graphs and tables etc., use the Report class.  For example, 'Report(m)'.</p><h2>7) Run the model with a different set of priors<a name="16"></a></h2><p>Above, we estimated the BVAR setting the Normal Whishart priors directly, and approximated the posterior using the Gibbs sampler. A more popular approach, at least for forecasting, is to use the so called Minnesota prior. This can be done by changing the batch settings as below</p><pre class="codeinput">m.batch.priorSettings.doMinnesota = true;
+</pre><p>That is, we do not need to specify the .tr "fields", but only set doMinnesota = true. The reader with knowledge of the Minnestora prior will recognise the additional options found in the settings for this prior:</p><pre class="codeinput">m.batch.priorSettings.minnesotaSettings
+</pre><pre class="codeoutput">
+ans = 
+
+  MinnesotaPriorSetting with properties:
+
+    vprior: 10
+     abar1: 0.6000
+     abar2: 0.5000
+     abar3: 0.1000
+      type: [1x1 CellObj]
+
+</pre><p>See help MinnesotaPriorSetting for details. Here we continue using the defaults listed above. Note: the Minnesota prior is conjugate, implying that the Gibbs sampler isn't required. However, in the toolbox, the Gibbs sample is always invoked in this particular class. (Nevertheless, a researcher can create a new conjugate BVAR class to circumvent the Gibbs sampler.)</p><p>Using the priors from the first run:</p><pre class="codeinput">m.estimation.T.point
+</pre><pre class="codeoutput">
+ans =
+
+    0.1884    0.2587
+   -0.0983    0.6662
+
+</pre><p>Running the model again, now with the Minnesota-style priors:</p><pre class="codeinput">m.runModel
+</pre><pre class="codeoutput">Starting model M1 computation
+Starting BVAR estimation
+Starting gibbs sampler
+Total number of iterations is: 1100. Every 1 iteration is used. Burninn is: 100
+100%[===================================================]
+Starting BVAR forecast
+Done with M1 computation
+</pre><p>...we get:</p><pre class="codeinput">m.estimation.T.point
+</pre><pre class="codeoutput">
+ans =
+
+    0.0778    0.4194
+   -0.0997    0.6004
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% BVAR Example
+% This script shows how a simple BVAR model can be set up and estimated using the 
+% Model framework of the PROFOR Toolbox.
+
+%%
+% See the
+% <matlab:edit(fullfile('runningModelsExample2.m')) matlab code> 
+% corresponding to this help file to run examples directly in MATLAB.
+%
+
+%% 1) Load data
+% First, we load some simulated data, stored as Tsdata objects.
+load(fullfile(proforStartup.pfRootHelpData,'varData.mat'));
+
+%% 2) Initializing a Model object
+% All individual time series models supported by the PROFOR Toolbox can be
+% initialized as follows:
+m = Model('bvar');
+%%
+% Here, the input 'bvar' defines that the researcher wishes to work with a BVAR.
+%
+% The instance of the BVAR Model class is 'm'. 'm' works as a container for
+% all the information we have about (and will put into) our model, i.e.:
+
+m
+%%
+% Typing 'm.state' will give the state of the Model object.  Before
+% estimation and forecasting, this state has to be 'true' (MATLAB logical),
+% i.e. 1.
+m.state
+
+%%
+
+
+%% 3) Setting Tsdata
+% The only Model properties set directly are the data and batch 
+% properties. 
+%
+% First, supply data to the model. The estimation and forecasting
+% properties are populated when the model is estimated and then used to
+% forecast.
+%
+% To supply the model with data, type:  
+m.data = d;
+
+
+%% 4) Setting the Batch 
+% The Model also needs some information about the estimation method, the
+% variables to include, the sample used for parameter estimation, etc.  For
+% most settings, there are defaults, but some have to be set by the
+% researcher.
+%
+% In the following example, the first three settings relate to the number
+% of lags, the sample for parameter estimation and the frequency of the
+% data. The subsequent settings are:
+%
+% (i) 'selectionY' which defines the endogenous variables in the Model.
+% These will be supplied in the order in which they are specified.
+%
+% (ii) 'forecastSettings.nfor' which defines the (longest) forecasting
+% horizon.
+%
+
+m.batch.nlag                                = 1;
+m.batch.sample                              = '1985.01 - 2004.03';
+m.batch.freq                                = 'q';
+m.batch.selectionY                          = {'y1','y2'};
+m.batch.forecastSettings.nfor               = 4;
+
+%%
+% The simulationSettings defines the number of draws employed to construct
+% the posterier etc. The nburn property of simulationSettings defines the
+% burn-in. 
+
+m.batch.simulationSettings.nSaveDraws       = 1000;
+m.batch.simulationSettings.nBurnin          = 100;
+
+%%
+% The priors are set and saved in b.priorSettings. Since the state space
+% system is the default, the priorSettings have twoo "fields" .tr and .obs:
+% transition equation and observation equation. For a BVAR the obs is redundant,
+% so the researcher only needs to care about the .tr "field"
+% The .tr "field" has four properties v, V, T, and Q. v is the degress of
+% freedom (or weight put on the prior), V is the covariance among the
+% parameters of the BVAR (the T matrix), T is the mean of the parameters,
+% and Q is the mean of the covariance of the errors. 
+
+m.batch.priorSettings.tr.v = 200;
+m.batch.priorSettings.tr.V = diag(repmat(0.05,[6 1]));
+m.batch.priorSettings.tr.T = [0 0.9 0;
+                              0 0 0.9];
+m.batch.priorSettings.tr.Q = [0.5 0;0 0.5];
+
+%% 5) Running the Model 
+% When the state of the batch file is 'true' (you can check this by typing
+% 'm.batch.state'), the research can run the model. 
+
+m.runModel
+%%
+% If the 'm.batch.state' had been false (or the 'm.state' had been false),
+% the Model won't run.
+
+%% 6) Looking at the output
+% Once the Model has completed estimation and forecasting, 
+% 'm.estimation' and 'm.forecasting' are populated with output.
+
+m.estimation
+%%
+m.forecast
+%%
+% To obtain graphs and tables etc., use the Report class.  For example, 
+% 'Report(m)'.
+
+%% 7) Run the model with a different set of priors
+% Above, we estimated the BVAR setting the Normal Whishart priors directly,
+% and approximated the posterior using the Gibbs sampler. A more popular
+% approach, at least for forecasting, is to use the so called Minnesota
+% prior. This can be done by changing the batch settings as below
+
+m.batch.priorSettings.doMinnesota = true;
+
+%%
+% That is, we do not need to specify the .tr "fields", but only set 
+% doMinnesota = true. The reader with knowledge of the Minnestora prior will 
+% recognise the additional options found in the settings for this prior:
+
+m.batch.priorSettings.minnesotaSettings
+
+%% 
+% See help MinnesotaPriorSetting for details. Here we continue using the 
+% defaults listed above. Note: the Minnesota prior is conjugate, implying
+% that the Gibbs sampler isn't required.  
+% However, in the toolbox, the Gibbs sample is always invoked in this particular
+% class. (Nevertheless, a researcher can create a new conjugate BVAR
+% class to circumvent the Gibbs sampler.)
+%% 
+% Using the priors from the first run:
+m.estimation.T.point
+
+%% 
+% Running the model again, now with the Minnesota-style priors:
+
+m.runModel
+
+%%
+% ...we get:
+
+m.estimation.T.point
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

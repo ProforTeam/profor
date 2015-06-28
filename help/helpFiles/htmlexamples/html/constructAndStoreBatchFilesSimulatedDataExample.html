@@ -1,0 +1,367 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>constructAndStoreBatchFilesSimulatedDataExample</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-02-02"><meta name="DC.source" content="constructAndStoreBatchFilesSimulatedDataExample.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Constructing batch files for a Profor experiment with rolling windows</a></li><li><a href="#3">Prelim</a></li><li><a href="#4">1) AR(1)</a></li><li><a href="#6">2) BVAR</a></li><li><a href="#7">See AR(1) above:</a></li><li><a href="#10">3) BVARTVPSV</a></li><li><a href="#17">4) Combination</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> constructAndStoreBatchFilesSimulatedDataExample(saveBatchPath)
+</pre><h2>Constructing batch files for a Profor experiment with rolling windows<a name="2"></a></h2><p>This function defines several batch objects: three for individual models, and one for the combination. All batch files are saved to a directory defined by input: saveBatchPath</p><p>In this example, simulated data are used to estimate the models. The `true' DGP is a VAR with four lags, VAR(4). The models estimated are: an AR(1), a BVAR (where the priors are set to the true parameters), and a BVAR with time-varying parameters and stochastic volatility.</p><p>The combination uses a rolling window to compute the weights. See the setting of the batch file for the combination below.</p><p>See the description in constructAndStoreBatchFilesExample for more detailed information.</p><p>Note that with these batch files in the experiment defined in proforExampleSimulatedData, where data are supplied directly to the Profor object, no loadDataPath statements are required in the individual batch files.</p><h2>Prelim<a name="3"></a></h2><p>Load the data with the true parameters:</p><pre class="codeinput">B = load(fullfile(proforStartup.pfRootHelpData,<span class="string">'varData.mat'</span>));
+</pre><h2>1) AR(1)<a name="4"></a></h2><pre class="codeinput">b               = Batchvar;
+b.nlag          = 1;
+b.selectionY    = {<span class="string">'y1'</span>};
+b.sample        = <span class="string">'1983.01 - 2004.04'</span>;
+b.freq          = <span class="string">'q'</span>;
+</pre><p>Set the transf property of the data = 0, meaning no transformation. This gives the researcher scope to evaluate the forecasts using various transformations. See setting of Batchcombination below.</p><pre class="codeinput">seti            = DataSetting;
+seti.doTransfTo = 0;
+b.dataSettings  = {seti};
+
+b.modelName     = <span class="string">'M1'</span>;
+b.savePath      = saveBatchPath;
+b.saveo;
+</pre><h2>2) BVAR<a name="6"></a></h2><pre class="codeinput">b               = Batchbvar;
+b.nlag          = 4;
+b.selectionY    = {<span class="string">'y1'</span>,<span class="string">'y2'</span>,<span class="string">'y3'</span>,<span class="string">'y4'</span>};
+b.sample        = <span class="string">'1983.01 - 2004.04'</span>;
+b.freq          = <span class="string">'q'</span>;
+</pre><h2>See AR(1) above:<a name="7"></a></h2><pre class="codeinput">seti            = DataSetting;
+seti.doTransfTo = 0;
+b.dataSettings  = {seti,seti,seti,seti};
+</pre><p>Apply very tight priors around the true parameters:</p><pre class="codeinput">b.priorSettings.tr.v = 300;
+b.priorSettings.tr.V = diag(repmat(0.001,[(4*4+1)*4 1]));
+
+b.priorSettings.tr.T = B.beta;
+b.priorSettings.tr.Q = B.sigma;
+</pre><p>The simulationSettings define the number of draws employed to construct the posteriers. The nburn property of simulationSettings defines the burn-in:</p><pre class="codeinput">b.simulationSettings.nBurnin = 100;
+
+b.modelName     = <span class="string">'M3'</span>;
+b.savePath      = saveBatchPath;
+b.saveo;
+</pre><h2>3) BVARTVPSV<a name="10"></a></h2><pre class="codeinput">b               = Batchbvartvpsv;
+b.selectionY    = {<span class="string">'y1'</span>};
+b.sample        = <span class="string">'1983.01 - 2004.04'</span>;
+b.nlag          = 1;
+b.freq          = <span class="string">'q'</span>;
+</pre><p>Gibbs settings:</p><pre class="codeinput">b.simulationSettings.nSaveDraws     = 1000;
+b.simulationSettings.nBurnin        = 100;
+b.simulationSettings.nStep          = 1;
+</pre><p>See AR(1) above:</p><pre class="codeinput">seti            = DataSetting;
+seti.doTransfTo = 0;
+b.dataSettings  = {seti};
+</pre><p>Set priors based on `true' parameters Here B.sigma is the residual covariance matrix of the VAR</p><pre class="codeinput">[Sigma_ols, A0_ols] = resamplingFns.getSigmaAndA0( B.sigma );
+</pre><p>A0 is not used for an AR model (always = 1). Thus, all the priors are set to nan</p><pre class="codeinput">b.priorSettings.a0s.a0        = nan;
+b.priorSettings.a0s.p0        = nan;
+b.priorSettings.a0s.v         = nan;
+b.priorSettings.a0s.S         = nan;
+</pre><p>SIGMA</p><pre class="codeinput">b.priorSettings.sigmab.a0     = Sigma_ols(1,1);
+b.priorSettings.sigmab.p0     = 10;
+b.priorSettings.sigmab.v      = 100;
+b.priorSettings.sigmab.S      = 1./100;
+</pre><p>TG</p><pre class="codeinput">b.priorSettings.tg.a0     = B.beta(1, 1:2)';
+b.priorSettings.tg.p0     = eye(numel(b.priorSettings.tg.a0)).*5;
+b.priorSettings.tg.v      = 100;
+b.priorSettings.tg.S      = eye(numel(b.priorSettings.tg.a0))./100;
+
+b.modelName     = <span class="string">'M4'</span>;
+b.savePath      = saveBatchPath;
+b.saveo;
+</pre><h2>4) Combination<a name="17"></a></h2><pre class="codeinput">b                                   = Batchcombination;
+b.selectionY                        = {<span class="string">'y1'</span>};
+b.selectionA                        = {<span class="string">'M1'</span>, <span class="string">'M3'</span>, <span class="string">'M4'</span>};
+b.forecastSettings.nfor             = 4;
+b.sample                            = <span class="string">'1995.01-2004.01'</span>;
+b.freq                              = <span class="string">'q'</span>;
+</pre><p>This defines the location of the batch files for the individual models. I.e., the same path used above to save the individual batch files.</p><pre class="codeinput">b.pathA                             = saveBatchPath;
+</pre><p>Define a scoring method (this can be updated also after having run the model)</p><pre class="codeinput">b.densityScoreSettings.scoringMethods = {<span class="string">'logScoreD'</span>};
+</pre><p>Define the xDomainLength. The xDomainLength defines the length of the xDomain on which the densities should be approximated using the empirical densities. The program uses the built-in Matlab ksdensity function to do this. The program needs to do this to generate the density scores (and to combine the density forecasts). If an xDomain isn't specified, PROFOR automatically defines one. Note: More grid points (i.e., a finer grid), results in better approximation (but be sure to choose the start and end points well. If not, the pdfs might not integrate to 1). Also, a larger domain requires more memory and takes longer to compute. The default xDomainLength is 500. By not defining a xDomain, the program automatically generates one, but now with 1000 as its length.</p><pre class="codeinput">b.densityScoreSettings.xDomainLength  = 1000;
+</pre><p>Set the rolling window option to be true. This indicates that the weights should be computed over a rolling window...</p><pre class="codeinput">b.isRollingWindow                   = true;
+</pre><p>...and when this is true, also remember to set the trainingPeriod sample. This will determine the length of the rolling window,...</p><pre class="codeinput">b.trainingPeriodSample              = <span class="string">'1995.01 - 2000.01'</span>;
+</pre><p>...which in this case is 5 years. The training sample  must be a subset of the sample vintages specified in the batch combination. In this example, the weights for vintage 2000.01 will be based on the scores from data vintages 1995.01 - 2000.01. In data vintage 2000.02, scores from vintages 1995.02 - 2000.02 will be used to construct weights etc.</p><p>Define the number of simulations to be used for constructing densities:</p><pre class="codeinput">b.simulationSettings.nSaveDraws     = 1000;
+</pre><p>The PROFOR toolbox allows the researcher to estimate the models using one transformation, but then evaluate the forecasts using a different type of transformation. In the individual models, transf = 0, but below the researcher could select the growth rate, by swapping the 0 to a 3, or 'gr', in the script:</p><pre class="codeinput">seti                                = DataSetting;
+seti.doTransfTo                     = 0;
+b.dataSettings                      = {seti};
+
+b.savePath      = saveBatchPath;
+b.saveo;
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function constructAndStoreBatchFilesSimulatedDataExample(saveBatchPath)
+%% Constructing batch files for a Profor experiment with rolling windows
+%
+% This function defines several batch objects: three for individual models,
+% and one for the combination. All batch files are saved to a directory
+% defined by input: saveBatchPath
+%
+% In this example, simulated data are used to estimate the models. The
+% `true' DGP is a VAR with four lags, VAR(4). The models estimated are:
+% an AR(1), a BVAR (where the priors are set to the true parameters), 
+% and a BVAR with time-varying parameters and stochastic volatility.
+% 
+% The combination uses a rolling window to compute the weights. See the setting
+% of the batch file for the combination below.
+%
+% See the description in constructAndStoreBatchFilesExample for more
+% detailed information. 
+%
+% Note that with these batch files in the experiment defined
+% in proforExampleSimulatedData, where data are supplied directly to the
+% Profor object, no loadDataPath statements are required in the individual
+% batch files. 
+%
+
+%% Prelim 
+%
+% Load the data with the true parameters:
+
+B = load(fullfile(proforStartup.pfRootHelpData,'varData.mat'));
+
+%% 1) AR(1)
+
+b               = Batchvar; 
+b.nlag          = 1;        
+b.selectionY    = {'y1'};            
+b.sample        = '1983.01 - 2004.04'; 
+b.freq          = 'q'; 
+
+%%
+% Set the transf property of the data = 0, meaning no
+% transformation. This gives the researcher scope to evaluate the 
+% forecasts using various transformations.
+% See setting of Batchcombination below.
+
+seti            = DataSetting;
+seti.doTransfTo = 0;
+b.dataSettings  = {seti};
+
+b.modelName     = 'M1';
+b.savePath      = saveBatchPath;
+b.saveo;
+
+%% 2) BVAR
+
+b               = Batchbvar;
+b.nlag          = 4;
+b.selectionY    = {'y1','y2','y3','y4'};
+b.sample        = '1983.01 - 2004.04';
+b.freq          = 'q';
+
+%% See AR(1) above:
+%
+seti            = DataSetting;
+seti.doTransfTo = 0;
+b.dataSettings  = {seti,seti,seti,seti};
+
+%%
+% Apply very tight priors around the true parameters:
+
+b.priorSettings.tr.v = 300;
+b.priorSettings.tr.V = diag(repmat(0.001,[(4*4+1)*4 1]));
+
+b.priorSettings.tr.T = B.beta;
+b.priorSettings.tr.Q = B.sigma;
+
+%%
+% The simulationSettings define the number of draws employed to construct
+% the posteriers. The nburn property of simulationSettings defines the
+% burn-in:
+
+b.simulationSettings.nBurnin = 100;
+
+b.modelName     = 'M3';
+b.savePath      = saveBatchPath;
+b.saveo;
+
+%% 3) BVARTVPSV
+
+b               = Batchbvartvpsv;
+b.selectionY    = {'y1'};
+b.sample        = '1983.01 - 2004.04';
+b.nlag          = 1;
+b.freq          = 'q';
+
+%% 
+% Gibbs settings:
+%
+b.simulationSettings.nSaveDraws     = 1000;
+b.simulationSettings.nBurnin        = 100;
+b.simulationSettings.nStep          = 1;
+
+%%
+% See AR(1) above:
+
+seti            = DataSetting;
+seti.doTransfTo = 0;
+b.dataSettings  = {seti};
+
+
+%%
+% Set priors based on `true' parameters
+% Here B.sigma is the residual covariance matrix of the VAR
+
+[Sigma_ols, A0_ols] = resamplingFns.getSigmaAndA0( B.sigma ); 
+
+%%
+% A0 is not used for an AR model (always = 1). Thus, all the priors are set
+% to nan 
+
+b.priorSettings.a0s.a0        = nan;
+b.priorSettings.a0s.p0        = nan;
+b.priorSettings.a0s.v         = nan;
+b.priorSettings.a0s.S         = nan;
+
+%% 
+% SIGMA 
+
+b.priorSettings.sigmab.a0     = Sigma_ols(1,1);
+b.priorSettings.sigmab.p0     = 10;
+b.priorSettings.sigmab.v      = 100;
+b.priorSettings.sigmab.S      = 1./100;
+
+%% 
+% TG
+
+b.priorSettings.tg.a0     = B.beta(1, 1:2)';
+b.priorSettings.tg.p0     = eye(numel(b.priorSettings.tg.a0)).*5;
+b.priorSettings.tg.v      = 100;
+b.priorSettings.tg.S      = eye(numel(b.priorSettings.tg.a0))./100;
+
+b.modelName     = 'M4';
+b.savePath      = saveBatchPath;
+b.saveo;
+
+%% 4) Combination
+
+b                                   = Batchcombination;
+b.selectionY                        = {'y1'};
+b.selectionA                        = {'M1', 'M3', 'M4'};
+b.forecastSettings.nfor             = 4; 
+b.sample                            = '1995.01-2004.01';
+b.freq                              = 'q';
+
+%% 
+% This defines the location of the batch files for the
+% individual models. I.e., the same path used above to save the individual
+% batch files. 
+
+b.pathA                             = saveBatchPath;
+
+%% 
+% Define a scoring method (this can be updated also after having run the model)
+
+b.densityScoreSettings.scoringMethods = {'logScoreD'};
+%% 
+% Define the xDomainLength. The xDomainLength defines the length of the 
+% xDomain on which the densities should be approximated using the empirical 
+% densities. The program uses the built-in Matlab ksdensity function to do this. 
+% The program needs to do this to generate the density scores 
+% (and to combine the density forecasts). If an xDomain isn't specified, 
+% PROFOR automatically defines one. 
+% Note: More grid points (i.e., a finer grid), results in better approximation 
+% (but be sure to choose the start and end points well. If not, the pdfs might
+% not integrate to 1). Also, a larger domain requires more memory and takes 
+% longer to compute. 
+% The default xDomainLength is 500. By not defining a xDomain, the program
+% automatically generates one, but now with 1000 as its length. 
+
+b.densityScoreSettings.xDomainLength  = 1000;
+
+%%
+% Set the rolling window option to be true. This indicates that the weights
+% should be computed over a rolling window...
+
+b.isRollingWindow                   = true;
+
+%%
+% ...and when this is true, also remember to set the trainingPeriod sample.
+% This will determine the length of the rolling window,...
+b.trainingPeriodSample              = '1995.01 - 2000.01';
+
+%%
+% ...which in this case is 5 years. The training sample  must be a subset
+% of the sample vintages specified in the batch combination. In this
+% example, the weights for vintage 2000.01 will be based on the scores
+% from data vintages 1995.01 - 2000.01. In data vintage 2000.02, scores
+% from vintages 1995.02 - 2000.02 will be used to construct weights etc.
+%
+% Define the number of simulations to be used for constructing densities:
+
+b.simulationSettings.nSaveDraws     = 1000;
+
+%%
+% The PROFOR toolbox allows the researcher to estimate the models using one
+% transformation, but then evaluate the forecasts using a different type of
+% transformation. In the individual models, transf = 0, but below the researcher 
+% could select the growth rate, by swapping the 0 to a 3, or 'gr', in the
+% script:
+
+seti                                = DataSetting;
+seti.doTransfTo                     = 0;
+b.dataSettings                      = {seti};
+
+b.savePath      = saveBatchPath;
+b.saveo;
+
+
+##### SOURCE END #####
+--></body></html>

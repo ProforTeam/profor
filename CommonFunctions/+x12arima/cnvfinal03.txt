@@ -1,0 +1,66 @@
+CNVFINAL03
+
+
+Purpose:
+
+    To convert input specification files from Version 0.2.10 of
+    X-12-ARIMA to a format compatable with Version 0.3 of X-12-ARIMA.
+
+	This utility is a DOS utility - the examples below assume you are
+	running the utility within a DOS command window, and are running
+	the utility in the same directory that the utility is stored in.
+
+
+Syntax:
+
+    cnvfinal03 oldspec newspec
+
+    where:
+
+    oldspec is the filename of an input specification file for 
+            Version 0.2.10 of X-12-ARIMA;
+
+    newspec is the filename of a input specification file for 
+            Version 0.3 of X-12-ARIMA that was formed from the
+            specs and arguments found in oldspec.
+
+
+Note:
+
+    CNVFINAL03 assumes that the input is a valid input specification file
+    for Version 0.2.10 of X-12-ARIMA; no attempt is made to verify if
+	the contents of the file are in the correct syntax.
+
+    Comments written in the old spec file are not transferred to the
+    new.
+
+    Spec names and spec arguments from the old input file are converted
+    to lower case in the translated input file.  
+
+    Note that some arguments and tables from Version 0.2.10 of X-12-ARIMA
+    are not found in the Version 0.3 of X-12-ARIMA.  Warning messages 
+    will be produced when these are encountered.
+
+    This program was written with the Icon programming language, 
+    with special routines provided by the Icon program library.  
+    For more information on Icon, see "The Icon Programming Language, 
+    Third Edition" by Ralph E. Griswold and Madge T. Griswold,
+    published by Peer-to-Peer Communications.
+    
+    The source code for this program is available upon request.
+
+
+Support:
+
+    Contact Brian C. Monsell at any one of the following:
+
+    Email:   brian.c.monsell@census.gov
+    Fax:     (301) 763-8399
+    Phone:   (301) 763-1721 (or 301-763-1649)
+    Address: Statistical Research Division
+             U. S. Census Bureau
+             4600 Silver Hill Road
+             Washington, DC  20233
+
+
+Revision Date : May 2, 2007

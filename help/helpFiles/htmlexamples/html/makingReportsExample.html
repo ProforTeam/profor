@@ -1,0 +1,793 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Making Reports Using Report Functionality</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-26"><meta name="DC.source" content="makingReportsExample.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Making Reports Using Report Functionality</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">Introduction</a></li><li><a href="#5">1(a) Individual models (estimation: Estimation)</a></li><li><a href="#9">Plot point forecasts</a></li><li><a href="#12">Plot density forecasts</a></li><li><a href="#15">1(b) Combination models (estimation: Estimationcombination)</a></li><li><a href="#18">Plot the weights and scores</a></li><li><a href="#19">2) PROFOR objects</a></li><li><a href="#21">Plot Total Economic Loss (TEL)</a></li><li><a href="#24">Plot the probability of these events</a></li><li><a href="#25">Plot the Relative Operating Characteristics (ROCs)</a></li><li><a href="#27">Real-time tables of scores or weights</a></li><li><a href="#32">Produce tables for various scoring methods</a></li><li><a href="#33">Plot the Probability Integral Transforms (PITs)</a></li><li><a href="#34">View the table of tests based on the PITs</a></li><li><a href="#35">Produce MSPE for point forecasts</a></li><li><a href="#36">Evaluate point forecasts</a></li></ul></div><p>The reporting functionality works on two types of object:</p><p>1. Model</p><pre>(a) estimation: Estimation</pre><pre>(b) estimation: Estimationcombination</pre><p>2. Profor</p><p>Prerequisite:  First run proforExample.m, i.e. the Real-Time Data profor example, <a href="matlab:edit(fullfile('proforExample.m'))">matlab code</a>.</p><p>See the <a href="matlab:edit(fullfile('makingReportsExample.m'))">matlab code</a> corresponding to edit and run this Using Report Functionality help file.</p><h2>Introduction<a name="2"></a></h2><p>Initialize screen output:</p><pre class="codeinput">format <span class="string">long</span>
+</pre><p>For an overview of the Reporting functionality, type:</p><pre class="codeinput">help <span class="string">Report</span>
+</pre><pre class="codeoutput">  Report    Provides reporting methods for individual, combination and Profor
+            model objects.
+ 
+  Report Properties:
+ 
+ 
+ 
+  Report Methods:
+    Report                              - Constructor
+    plotPointForecast                   - Plots the point forecast.
+    plotDensityForecast                 - Plots the density forecast.
+    plotWeightsOrScores                 
+    plotTotalEconomicLoss               
+    plotProbabilityEventThreshold
+    plotRelativeOperatingCharacteristics
+    plotProbabilityIntegralTransforms
+    plotPointForecastHistorical
+    plotDensityForecastHistorical
+    getProbabilityIntegralTransformsTests
+    evaluatePointForecast
+    getRealTimeTable
+    getDensityForecastScoreTable
+ 
+  Usage:
+ 
+    See the reporting &lt;a href="matlab: opentoline(./help/helpFiles/htmlexamples/makingReportsExample.m,1)"&gt;example file&lt;/a&gt;
+ 
+
+</pre><p>In general, for each of the methods of the Report class, checking the help documentation tells what must be specified by the researcher.  For example, to plot the density forecast fan chart, type:</p><pre class="codeinput">help <span class="string">Report.plotDensityForecast</span>
+</pre><pre class="codeoutput">  plotPointForecast - Plots the forecast density.
+ 
+  Input:
+    obj                 [Report]
+    vblNames   [cell](1xn)     Containing variable mnemonics to plot.
+    maxHistoryPeriods   [int]               e.g. 1.
+ 
+  USAGE: plotDensityForecast(obj, vblNames)
+    e.g. reportObj.plotDensityForecast( {'gdp', 'cpi'})
+ 
+  Can also be used with not input argument (program uses Report defaults),
+  i.e: 
+            reportObj.plotDensityForecast
+ 
+ 
+  Also, see usage in the reporting &lt;a href="matlab: opentoline(./help/helpFiles/htmlexamples/makingReportsExample.m,1)"&gt;example file&lt;/a&gt;
+ 
+
+</pre><h2>1(a) Individual models (estimation: Estimation)<a name="5"></a></h2><p>Load an individual model for a particular data vintage (not necessarily the last):</p><pre class="codeinput">m1 = Model.loado(fullfile(proforStartup.pfRoot, <span class="string">'help'</span>, <span class="string">'helpFiles'</span>, <span class="keyword">...</span>
+    <span class="string">'htmlexamples'</span>, <span class="string">'+results'</span>, <span class="string">'resultsProfor'</span>, <span class="string">'models'</span>, <span class="string">'M2'</span>, <span class="string">'results'</span>, <span class="keyword">...</span>
+    <span class="string">'2004.01_1'</span>, <span class="string">'m'</span>));
+</pre><p>First, construct the Report object:</p><pre class="codeinput">r1 = Report(m1);
+</pre><p>Check out the settings, to change the way things look:</p><pre class="codeinput">disp(r1)
+</pre><pre class="codeoutput">  Report with properties:
+
+        savePath: '/Users/shaunvahey/profor/Matlab/Profor/help/helpFiles/h...'
+    tableOptions: [1x1 TableOptionSettings]
+     plotOptions: [1x1 PlotOptionSettings]
+    rawDataTable: [0x0 table]
+     resultTable: [0x0 table]
+          output: [1x1 struct]
+
+</pre><p>Check the methods of the Report object:</p><pre class="codeinput">methods(r1)
+</pre><pre class="codeoutput">
+Methods for class Report:
+
+Report                                 plotPointForecastHistorical            
+evaluatePointForecast                  plotProbabilityEventThreshold          
+getDensityForecastScoreTable           plotProbabilityIntegralTransforms      
+getProbabilityIntegralTransformsTests  plotRelativeOperatingCharacteristics   
+getRealTimeTable                       plotTotalEconomicLoss                  
+plotDensityForecast                    plotWeightsOrScores                    
+plotDensityForecastHistorical          
+plotPointForecast                      
+
+Call "methods('handle')" for methods of Report inherited from handle.
+
+</pre><h2>Plot point forecasts<a name="9"></a></h2><p>Plot a point forecast using 'r1.plotPointForecast' with the given variable, specifying the number of periods before the evaluation period starts 'nEstimationDatesToInclude'.</p><pre class="codeinput">nEstimationDatesToInclude = 10;
+</pre><p>Plot individual series:</p><pre class="codeinput">variableToPlot = <span class="string">'gdp'</span>;
+r1.plotPointForecast( variableToPlot, nEstimationDatesToInclude)
+</pre><img vspace="5" hspace="5" src="makingReportsExample_01.png" alt=""> <p>Or plot a list of series:</p><pre class="codeinput">variableToPlot = {<span class="string">'gdp'</span>, <span class="string">'gdpctpi'</span>};
+r1.plotPointForecast( variableToPlot, nEstimationDatesToInclude)
+</pre><img vspace="5" hspace="5" src="makingReportsExample_02.png" alt=""> <img vspace="5" hspace="5" src="makingReportsExample_03.png" alt=""> <h2>Plot density forecasts<a name="12"></a></h2><p>Density forecasts can be plotted for a given variable, displaying a number of observations prior to the forecast origin.</p><p>Set the colour of the density map by using the 'plotOptions' settings. For example, to get something similar to the Bank of England charts:</p><pre class="codeinput">r1.plotOptions.densityColor = {<span class="string">'r'</span>};
+</pre><p>To control the quantiles used in the density forecast, set the option in 'Reports.plotOptions':</p><pre class="codeinput">r1.plotOptions.quantiles = [0.10; 0.30;  0.70; 0.90] .* 100;
+r1.plotDensityForecast({<span class="string">'gdp'</span>}, nEstimationDatesToInclude)
+</pre><img vspace="5" hspace="5" src="makingReportsExample_04.png" alt=""> <p>For the Norges Bank style colours in the charts:</p><pre class="codeinput">r1.plotOptions.densityColor = {<span class="string">'f'</span>};
+r1.plotDensityForecast({<span class="string">'gdp'</span>}, nEstimationDatesToInclude)
+</pre><img vspace="5" hspace="5" src="makingReportsExample_05.png" alt=""> <h2>1(b) Combination models (estimation: Estimationcombination)<a name="15"></a></h2><p>For a combination model:</p><pre class="codeinput">cm = Model.loado(fullfile(proforStartup.pfRoot, <span class="string">'help'</span>, <span class="string">'helpFiles'</span>, <span class="keyword">...</span>
+    <span class="string">'htmlexamples'</span>, <span class="string">'+results'</span>, <span class="string">'resultsProfor'</span>, <span class="string">'models'</span>, <span class="string">'Combination_gdp'</span>, <span class="keyword">...</span>
+    <span class="string">'results'</span>, <span class="string">'2004.01_1'</span>, <span class="string">'m'</span>));
+</pre><p>Construct a Report object with the combination model:</p><pre class="codeinput">r2 = Report(cm);
+</pre><p>Plot the point and density forecasts in the same manner as for individual models. Note, this uses the new Report object 'r2', which refers to the combined forecast.</p><pre class="codeinput">r2.plotPointForecast( {<span class="string">'gdp'</span>}, nEstimationDatesToInclude)
+r2.plotDensityForecast({<span class="string">'gdp'</span>}, nEstimationDatesToInclude)
+</pre><img vspace="5" hspace="5" src="makingReportsExample_06.png" alt=""> <img vspace="5" hspace="5" src="makingReportsExample_07.png" alt=""> <h2>Plot the weights and scores<a name="18"></a></h2><p>Using 'plotWeightsorScores', choose the weights (or scores), the model names and the forecast horizons:</p><pre class="codeinput">forecastHorizonToPlot = 1;
+r2.plotWeightsOrScores(<span class="string">'weights'</span>, {<span class="string">'M1'</span>,<span class="string">'M2'</span>, <span class="string">'M3'</span>}, forecastHorizonToPlot)
+</pre><img vspace="5" hspace="5" src="makingReportsExample_08.png" alt=""> <h2>2) PROFOR objects<a name="19"></a></h2><p>This works with the output from 'proforExample'. Therefore, the researcher must point to the location of the batch files and results folder from a PROFOR experiment:</p><pre class="codeinput">p                   = Profor;
+p.savePath          = fullfile(proforStartup.pfRoot, <span class="string">'help'</span>, <span class="string">'helpFiles'</span>, <span class="keyword">...</span>
+    <span class="string">'htmlexamples'</span>, <span class="string">'+results'</span>, <span class="string">'resultsProfor'</span>);
+p.modelSetupPath    = fullfile(proforStartup.pfRoot, <span class="string">'help'</span>, <span class="string">'helpFiles'</span>, <span class="keyword">...</span>
+    <span class="string">'htmlexamples'</span>, <span class="string">'+batchFiles'</span>, <span class="string">'batchFilesProfor'</span>);
+</pre><p>Generate a report using:</p><pre class="codeinput">r3 = Report(p);
+</pre><h2>Plot Total Economic Loss (TEL)<a name="21"></a></h2><p>Check the help settings for Total Economic Loss (TEL) in order to set the options for the function:</p><pre class="codeinput">help <span class="string">Report.plotTotalEconomicLoss</span>
+</pre><pre class="codeoutput">  plotTotalEconomicLoss - Plots Total Economic Loss (TEL)
+    Forecasts are real-time and outturns are the last available vintage.
+    TEL defined as TEL = L * contingency(2, 1) + C * (Warning True). The cdf for
+    the prob(X &lt; z) is for the score method: logScoreD.
+  N.B. The prob(X &lt; z) is taken for concurrent date / evaluation periods, i.e.
+  (OO.01, 00.01).
+  The contingency table is defined for an Event and Test as:
+    Event = Prob( X &lt; z )
+    Test  = Prob( X &lt; z) &gt; R = (C/L).
+ 
+               Event
+    Test      Y     N
+          Y  (1,1)  (1,2)
+          N  (2,1)  (2,2)
+  Where:
+    (1,1) - True  Positive
+    (1,2) - False Positive
+    (2,1) - False Negative
+    (2,2) - True  Negative
+ 
+  And Warning true = (1,1) + (1,2).
+ 
+  Input:
+    obj                 [Report]
+    vblNames             [str]               e.g. 'gdp'
+    eventThreshold      [double]            e.g. 1.5
+    modelNames          [cell][str]         e.g. {'M1', 'M2'}
+    defaultModelName    [str]               e.g. 'M1'
+    forecastHorizon     [double]            e.g. 1
+ 
+  Output:
+    figure              [figure]
+ 
+  Can also be used with not input argument (program uses Report defaults),
+  i.e:
+            reportObj.plotTotalEconomicLoss
+ 
+ 
+  Reference:
+ 
+  Murphy, A.H. and Winkler, R.L. (1987), "A general framework for forecast
+    verification", Monthly Weather Review, 115, 1330-1338.
+ 
+  Usage:
+    plotTotalEconomicLoss(obj, vblNames, eventThreshold, modelNames, ...
+        defaultModelName, forecastHorizon)
+  e.g.
+    Report.plotTotalEconomicLoss('gdp', 1.5, {'M1', 'M2', 'M3'}, ...
+        'M1', 1)
+ 
+
+</pre><p>Set the inputs for the TEL plot.  The researcher selects the threshold for the event of interest, the variable name, the benchmark model, the models to be compared, and the forecast horizon, respectively. Note, the same eventThreshold must be included in the Profor experiment before generating the report -- here the experiment was run with proforExample.m.</p><pre class="codeinput">eventThreshold      = 1.0;
+vblName             = <span class="string">'gdp'</span>;
+defaultModelName    = <span class="string">'M1'</span>;
+modelNames          = {<span class="string">'M1'</span>, <span class="string">'M2'</span>, <span class="string">'M3'</span>};
+forecastHorizon     = 1;
+</pre><p>Plot TEL against relative cost, R=C/L, where 0&lt;R&lt;1.  Note that 'leftHandSide' tells PROFOR to define the event below the threshold, e.g. GDP &lt; 1.0 event. (And, rightHandSide means above the threshold e.g. GDP &gt; 1.0 event).</p><p>TEL is plotted relative to the benchmark here.  So, a 40 on the plot y-axis indicates a 60 percent improvement over the benchmark, normalized to 100.</p><p>TEL is evaluated against the last available vintage of data using the real time latest available forecasts.</p><p>By default, the outturns for forecast evaluations are set to the latest available vintage with the reporting functionality.</p><pre class="codeinput">r3.plotTotalEconomicLoss(vblName, eventThreshold, {<span class="string">'M1'</span>, <span class="string">'M2'</span>, <span class="string">'M3'</span>}, <span class="keyword">...</span>
+    defaultModelName, forecastHorizon, <span class="string">'leftHandSide'</span>)
+</pre><pre class="codeoutput">Starting parallel pool (parpool) using the 'local' profile ... connected to 2 workers.
+</pre><img vspace="5" hspace="5" src="makingReportsExample_09.png" alt=""> <h2>Plot the probability of these events<a name="24"></a></h2><p>Plot the time series of forecast probabilities (for the same event):</p><pre class="codeinput">r3.plotProbabilityEventThreshold(vblName, eventThreshold, {<span class="string">'M1'</span>, <span class="string">'M2'</span>, <span class="string">'M3'</span>}, <span class="keyword">...</span>
+    forecastHorizon, <span class="string">'leftHandSide'</span>)
+</pre><img vspace="5" hspace="5" src="makingReportsExample_10.png" alt=""> <h2>Plot the Relative Operating Characteristics (ROCs)<a name="25"></a></h2><p>The researcher controls the plot via the same imputs as the TEL plot and the probability plot (described above). The help provides a description and a reference paper for ROCs:</p><pre class="codeinput">help  <span class="string">plotRelativeOperatingCharacteristics</span>
+</pre><pre class="codeoutput"> --- help for Report/plotRelativeOperatingCharacteristics ---
+
+  plotRelativeOperatingCharacteristics - Plots Relative Operating Characteristics.
+    Forecasts are real-time and outturns are the last available vintage.
+    Defined as True positives (hits) rate vs false positives (false alarms) rate.
+ 
+  The contingency table is defined on an Event for two cases and Test as:
+    eventType = 'leftHandSide':
+        Event = Prob( X &lt; z ) 
+    eventType = 'rightHandSide':
+        Event = Prob( X &gt; z ) 
+ 
+    Test  = Event &gt; R = (C/L).
+ 
+               Event
+    Test      Y     N  
+          Y  (1,1)  (1,2)
+          N  (2,1)  (2,2)
+  Where:
+    (1,1) - True  Positive
+    (1,2) - False Positive
+    (2,1) - False Negative
+    (2,2) - True  Negative
+ 
+  NB,   True positive rate  = True Positive  / Event Positive.
+        False positive rate = False Positive / Event Negative.
+ 
+  Input:
+    obj                 [Report]
+    vblNames            [str]               e.g. 'gdp'
+    eventThreshold      [double]            e.g. 1.5    
+    modelNames          [cell][str]         e.g. {'M1', 'M2'}
+    defaultModelName    [str]               e.g. 'M1'
+    forecastHorizon     [double]            e.g. 1
+    eventType           [str]               e.g. 'leftHandSide'
+ 
+  Output:
+    figure              [figure]
+ 
+  Can also be used with no input argument (program uses Report defaults),
+  i.e: 
+            reportObj.plotRelativeOperatingCharacteristics
+ 
+  References:
+  % Zhou, Xiao-Hua; Obuchowski, Nancy A.; McClish, Donna K. (2002). "Statistical 
+    Methods in Diagnostic Medicine". New York, NY: Wiley &amp; Sons.
+ 
+  For econ literature on resolution and calibration see also
+  Galbraith, J.W. and S. van Norden (2011) "Kernel-based calibration 
+  diagnostics for recession and inflation probability forecasts", 
+  International Journal of Forecasting
+  Galbraith, J.W. and S. van Norden (2012) "Assessing Gross Domestic 
+  Product and inflation probability forecasts derived from 
+  Bank of England fan charts", Journal of the Royal Statistical 
+  Society Series A  - Statistics in Society
+ 
+ 
+  Usage:
+    plotRelativeOperatingCharacteristics(obj, vblNames, eventThreshold, modelNames, ...
+        forecastHorizon, eventType)
+  e.g.
+    Report.plotRelativeOperatingCharacteristics('gdp', 1.5, {'M1', 'M2', 'M3'}, ...
+        1, 'leftHandSide')
+ 
+
+</pre><p>A well-performing model will lie above the 45 degree line on the ROC plot. To generate the ROC plot, with critical probability 0.5, run the following script:</p><pre class="codeinput">r3.plotRelativeOperatingCharacteristics(vblName, eventThreshold, {<span class="string">'M1'</span>, <span class="string">'M2'</span>, <span class="string">'M3'</span>}, <span class="keyword">...</span>
+    defaultModelName, forecastHorizon, <span class="string">'leftHandSide'</span>)
+</pre><img vspace="5" hspace="5" src="makingReportsExample_11.png" alt=""> <h2>Real-time tables of scores or weights<a name="27"></a></h2><p>Profor can recursively evaluate the real-time models when a new data vintage is released.</p><p>The results of this evaluation can be examined in MATLAB's table format. Check the help for this method:</p><pre class="codeinput">help <span class="string">Report.getRealTimeTable</span>
+</pre><pre class="codeoutput">  getRealTimeTable - Returns a real time table where at each vintage the current 
+                    outturns from that data vintage are used to construct the
+                    values of interest (scores, weights etc).
+ 
+  Input:
+    obj                 [Report]
+    vblNames            [str]
+    eventThreshold      [double]
+    modelNames          [cell][str]
+    forecastHorizon     [double]
+    scoreMethod         [str]
+    dataType            [str]       ('weights' or 'scores')
+    realTimeTableType   [str]       ('current' or 'full')
+        Full    - all evaluation periods for every vintage
+        current - only evaluation periods corresponding to that vintage
+ 
+  Usage:
+ 
+  Can also be used with not input argument (program uses Report defaults),
+  i.e: 
+            reportObj.getRealTimeTable
+ 
+
+</pre><p>To understand realTimeTableType, consider an example of a full table.</p><pre class="codeinput">scoreMethod         = {<span class="string">'logScoreD'</span>};
+outType             = <span class="string">'scores'</span>;
+realTimeTableType   = <span class="string">'full'</span>;
+out = r3.getRealTimeTable(vblName, {<span class="string">'M1'</span>}, forecastHorizon, <span class="keyword">...</span>
+    scoreMethod, outType, realTimeTableType, []);
+out{1}
+</pre><pre class="codeoutput">
+ans = 
+
+    Model    Periods    V2000Q01         V2000Q02              V2000Q03              V2000Q04              V2001Q01              V2001Q02              V2001Q03              V2001Q04              V2002Q01              V2002Q02              V2002Q03              V2002Q04              V2003Q01              V2003Q02              V2003Q03              V2003Q04              V2004Q01     
+    _____    _______    ________    __________________    __________________    __________________    __________________    __________________    __________________    __________________    __________________    __________________    __________________    __________________    __________________    __________________    __________________    __________________    __________________
+
+    M1       2000.01    NaN         -0.889824013343808    -0.859950381976148    -0.859950381976148    -0.859950381976148    -0.859950381976148     -0.89545953589182     -0.89545953589182     -0.89545953589182     -0.89545953589182     -0.95465978571123     -0.95465978571123     -0.95465978571123     -0.95465978571123     -0.95465978571123     -1.12539526426164     -1.12539526426164
+    M1       2000.02      0                        NaN    -0.900736923665689    -0.900736923665689    -0.900736923665689    -0.900736923665689    -0.884278425005279    -0.884278425005279    -0.884278425005279    -0.884278425005279    -0.859404135824687    -0.859404135824687    -0.859404135824687    -0.859404135824687    -0.859404135824687    -0.910418153173117    -0.910418153173117
+    M1       2000.03      0                          0                   NaN     -1.35180391189375     -1.35180391189375     -1.35180391189375     -1.51339390299732     -1.51339390299732     -1.51339390299732     -1.51339390299732     -1.95035356590375     -1.95035356590375     -1.95035356590375     -1.95035356590375     -1.95035356590375     -2.19315940647543     -2.19315940647543
+    M1       2000.04      0                          0                     0                   NaN     -1.05867703304537     -1.04676376429027    -0.984357383554183    -0.984357383554183    -0.984357383554183    -0.984357383554183     -1.02574745967885     -1.02574745967885     -1.02574745967885     -1.02574745967885     -1.02574745967885    -0.980350991628254    -0.980350991628254
+    M1       2001.01      0                          0                     0                     0                   NaN     -1.00227335118252    -0.998100248741757    -0.998100248741757    -0.998100248741757    -0.998100248741757      -1.1481867629467      -1.1481867629467      -1.1481867629467      -1.1481867629467      -1.1481867629467     -1.17129917642828     -1.17129917642828
+    M1       2001.02      0                          0                     0                     0                     0                   NaN     -1.36521824883183     -1.36521824883183     -1.36521824883183     -1.36521824883183     -1.73868191666183     -1.73868191666183     -1.73868191666183     -1.73868191666183     -1.73868191666183     -1.32924260106479     -1.32924260106479
+    M1       2001.03      0                          0                     0                     0                     0                     0                   NaN     -1.54284496078032     -1.54284496078032     -1.54284496078032     -1.35567546843893     -1.35567546843893     -1.35567546843893     -1.35567546843893     -1.35567546843893     -1.65497689243086     -1.65497689243086
+    M1       2001.04      0                          0                     0                     0                     0                     0                     0                   NaN     -1.22706069363063     -1.17370618801078      -1.0998815039909      -1.0998815039909      -1.0998815039909      -1.0998815039909      -1.0998815039909    -0.964595855002944    -0.964595855002944
+    M1       2002.01      0                          0                     0                     0                     0                     0                     0                     0                   NaN     -1.19218415719171     -1.07592342338649     -1.07592342338649     -1.07592342338649     -1.07592342338649     -1.07592342338649    -0.989893384170373    -0.989893384170373
+    M1       2002.02      0                          0                     0                     0                     0                     0                     0                     0                     0                   NaN     -1.49538553435534     -1.49538553435534     -1.49538553435534     -1.49538553435534     -1.49538553435534      -1.1750636876608      -1.1750636876608
+    M1       2002.03      0                          0                     0                     0                     0                     0                     0                     0                     0                     0                   NaN    -0.945166054651217    -0.945166054651217    -0.945166054651217    -0.945166054651217      -0.9199346967037      -0.9199346967037
+    M1       2002.04      0                          0                     0                     0                     0                     0                     0                     0                     0                     0                     0                   NaN     -1.23100842367188     -1.23100842367188     -1.23100842367188     -1.24758748481665     -1.24758748481665
+    M1       2003.01      0                          0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                   NaN     -1.08091541260194     -1.08091541260194     -1.08112227432161     -1.08112227432161
+    M1       2003.02      0                          0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                   NaN    -0.973704353988166    -0.980202026848474    -0.980202026848474
+    M1       2003.03      0                          0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                   NaN     -1.38375908557746     -1.38375908557746
+    M1       2003.04      0                          0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                   NaN     -1.12236495639841
+    M1       2004.01      0                          0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                     0                   NaN
+
+</pre><p>This displays the scores of the real-time models evaluated using different data vintages. Note, that the `current' data vintage never includes the `current' time series observation -- macro data are released with a one period lag.</p><p>Run the table with 'realTimeTableType   = 'full';' this delivers all NaNs because of the data release lag issue.</p><p>Run this again for the weights, with equal weights for the last observation (which can't be evaluated):</p><pre class="codeinput">outType             = <span class="string">'weights'</span>;
+out = r3.getRealTimeTable(vblName, {<span class="string">'M1'</span>}, forecastHorizon, <span class="keyword">...</span>
+    scoreMethod, outType, realTimeTableType, []);
+out{1}
+</pre><pre class="codeoutput">
+ans = 
+
+    Model    Periods        V2000Q01             V2000Q02             V2000Q03             V2000Q04             V2001Q01             V2001Q02             V2001Q03             V2001Q04             V2002Q01             V2002Q02             V2002Q03             V2002Q04             V2003Q01             V2003Q02             V2003Q03              V2003Q04              V2004Q01     
+    _____    _______    _________________    _________________    _________________    _________________    _________________    _________________    _________________    _________________    _________________    _________________    _________________    _________________    _________________    _________________    _________________    __________________    __________________
+
+    M1       2000.01    0.333333333333333    0.322290060361436    0.320528384933266    0.320528384933266    0.320528384933266    0.320528384933266    0.309136872877121    0.309136872877121    0.309136872877121    0.309136872877121     0.31055923226898     0.31055923226898     0.31055923226898     0.31055923226898     0.31055923226898     0.312814306684519     0.312814306684519
+    M1       2000.02                    0    0.333333333333333    0.314913998962036    0.314913998962036    0.314913998962036    0.314913998962036    0.304898644262742    0.304898644262742    0.304898644262742    0.304898644262742    0.312599020488738    0.312599020488738    0.312599020488738    0.312599020488738    0.312599020488738     0.304941212124737     0.304941212124737
+    M1       2000.03                    0                    0    0.333333333333333    0.276196656525262    0.276196656525262    0.276196656525262    0.262243311988132    0.262243311988132    0.262243311988132    0.262243311988132     0.25444024154995     0.25444024154995     0.25444024154995     0.25444024154995     0.25444024154995     0.239768525056077     0.239768525056077
+    M1       2000.04                    0                    0                    0    0.333333333333333    0.278491174153695    0.279976565165908    0.263178656141468    0.263178656141468    0.263178656141468    0.263178656141468     0.25719582006038     0.25719582006038     0.25719582006038     0.25719582006038     0.25719582006038     0.241819333361138     0.241819333361138
+    M1       2001.01                    0                    0                    0                    0    0.333333333333333    0.248155252481318    0.232438507460099    0.232438507460099    0.232438507460099    0.232438507460099    0.222605620207516    0.222605620207516    0.222605620207516    0.222605620207516    0.222605620207516     0.208546286491533     0.208546286491533
+    M1       2001.02                    0                    0                    0                    0                    0    0.333333333333333    0.214131638327263    0.214131638327263    0.214131638327263    0.214131638327263    0.219724272685268    0.219724272685268    0.219724272685268    0.219724272685268    0.219724272685268     0.192123408453873     0.192123408453873
+    M1       2001.03                    0                    0                    0                    0                    0                    0    0.333333333333333    0.188549418035027    0.188549418035027    0.188549418035027    0.186097661732338    0.186097661732338    0.186097661732338    0.186097661732338    0.186097661732338     0.176113956930503     0.176113956930503
+    M1       2001.04                    0                    0                    0                    0                    0                    0                    0    0.333333333333333    0.172479838866199    0.169255658947265    0.165182178542731    0.165182178542731    0.165182178542731    0.165182178542731    0.165182178542731     0.162544671428854     0.162544671428854
+    M1       2002.01                    0                    0                    0                    0                    0                    0                    0                    0    0.333333333333333    0.195376930816733    0.175438294330744    0.175438294330744    0.175438294330744    0.175438294330744    0.175438294330744     0.162440009333673     0.162440009333673
+    M1       2002.02                    0                    0                    0                    0                    0                    0                    0                    0                    0    0.333333333333333    0.187187193977935    0.187187193977935    0.187187193977935    0.187187193977935    0.187187193977935     0.157145680797008     0.157145680797008
+    M1       2002.03                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0    0.333333333333333    0.166358629038051    0.166358629038051    0.166358629038051    0.166358629038051     0.142851651731893     0.142851651731893
+    M1       2002.04                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0    0.333333333333333    0.144419900368959    0.144419900368959    0.144419900368959     0.121994789098609     0.121994789098609
+    M1       2003.01                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0    0.333333333333333    0.130315816870218    0.130315816870218      0.10633447695938      0.10633447695938
+    M1       2003.02                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0    0.333333333333333    0.118214644971039    0.0979213403737677    0.0979213403737677
+    M1       2003.03                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0    0.333333333333333     0.114934808186574     0.114934808186574
+    M1       2003.04                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0     0.333333333333333     0.100231267632509
+    M1       2004.01                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                    0                     0     0.333333333333333
+
+</pre><h2>Produce tables for various scoring methods<a name="32"></a></h2><p>The researcher should experiment with the tables directly. However, PROFOR provides a helper method to break down the tables into different chunks. Check this against the real-time table above -  the two correspond.</p><pre class="codeinput">scoreMethod         = {<span class="string">'logScoreD'</span>};
+requestedVintage    = 2003.04;
+startPeriod         = 2000.01;
+endPeriod           = 2003.02;
+defaultModelName    = <span class="string">'M1'</span>;
+
+scoreTable = r3.getDensityForecastScoreTable(vblName, {<span class="string">'M1'</span>, <span class="string">'M2'</span>, <span class="string">'M3'</span>}, <span class="keyword">...</span>
+    forecastHorizon, scoreMethod, requestedVintage, startPeriod, <span class="keyword">...</span>
+    endPeriod, defaultModelName, [])
+</pre><pre class="codeoutput">
+scoreTable = 
+
+    ModelNames    StartPeriod    EndPeriod    ForecastHorizon    VariableName      AverageScores      nObservations    HasVariableName
+    __________    ___________    _________    _______________    ____________    _________________    _____________    _______________
+
+    M1            2000.01        2003.02      1                  'gdp'           -1.19451727821335    14               true           
+    M2            2000.01        2003.02      1                  'gdp'           -1.12616564681745    14               true           
+    M3            2000.01        2003.02      1                  'gdp'           -1.05963350796485    14               true           
+
+</pre><h2>Plot the Probability Integral Transforms (PITs)<a name="33"></a></h2><p>Well-calibrated forecast densities give a uniform distribution to the PITS.  A tough ask in small samples, typically. This feature of the reporting functionality uses the set of first measurements for forecast evaluations -- the diagonal of the real-time data matrix.</p><p>A good reference is: F. X. Diebold, T. Gunther, and A. S. Tay. Evaluating density forecasts, with applications to financial risk management. International Economic Review, 39:863?883, 1998.</p><pre class="codeinput">r3.plotProbabilityIntegralTransforms(vblName, {<span class="string">'M1'</span>, <span class="string">'M2'</span>, <span class="string">'M3'</span>}, <span class="keyword">...</span>
+    forecastHorizon, <span class="string">'logScoreD'</span>, [])
+</pre><h2>View the table of tests based on the PITs<a name="34"></a></h2><p>Sometimes the PITS are evaluated at the end of the evaluation period, using a battery of one-shot tests.  Low probability values are bad news here - meaning that the null of 'no calibration failure' can be rejected. In which case, the PITS are not uniform and/or are serially corellated.</p><p>An application of these tests is provided by 'Real-Time Inflation Forecast Densities from Ensemble Phillips Curves' by Garratt, Vahey and Wakerly, North American Journal of Economics and Finance, 2012.  Also, earlier version is CAMA Working Paper 34/2010.</p><p>The goodness of fit tests employed include: 1) The Likelihood Ratio (LR) test proposed by Berkowitz (2001); a three degrees of freedom variant with (for h=1 only) a test for independence, where under the alternative <img src="makingReportsExample_eq01299890236969173880.png" alt="$z_{\tau}$"> follows an AR(1) process. 2) The Anderson-Darling (AD) test for uniformity, a modification of the Kolmogorov-Smirnov test, intended to give more weight to the tails. 3) Following Wallis (2003), a Pearson chi-squared test (<img src="makingReportsExample_eq03287069366163322989.png" alt="$\chi^{2}$">) which divides the range of the <img src="makingReportsExample_eq01299890236969173880.png" alt="$z_{\tau}$"> into eight equiprobable classes and tests for uniformity in the histogram. 4) The test for independence of the PITS is a Ljung-Box (LB) test, based on (up to) fourth-order autocorrelation.</p><p>To generate a table of these PITS-based tests (with the average logarithmic score also computed), using the set of first measurements for forecast evaluations, run:</p><pre class="codeinput">scoreMethod         = {<span class="string">'logScoreD'</span>};
+r3.getProbabilityIntegralTransformsTests(vblName, scoreMethod, {<span class="string">'M1'</span>, <span class="string">'M2'</span>, <span class="string">'M3'</span>}, <span class="keyword">...</span>
+    defaultModelName, forecastHorizon, [])
+</pre><pre class="codeoutput">
+ans = 
+
+    modelName    variableName    ForecastHorizon            LR                    AD                ChiSquared               LB                logScoreD    
+    _________    ____________    _______________    __________________    __________________    __________________    _________________    _________________
+
+    'M1'         'gdp'           1                  0.0337153538008831     0.149607794001502    0.0455002638963584     0.70606990879126    -1.17268294467563
+    'M2'         'gdp'           1                  0.0776832664974072    0.0624005401331346    0.0124193306515523    0.695967323673549    -1.15500224414855
+    'M3'         'gdp'           1                   0.175264572158992     0.126195236904398     0.133614402537716    0.459727529454613    -1.08260119012306
+
+</pre><h2>Produce MSPE for point forecasts<a name="35"></a></h2><p>This produces the Mean Squared Prediction Error, based on the median of the forecast density:</p><pre class="codeinput">scoreMethod         = {<span class="string">'mse'</span>};
+scoreTable = r3.getDensityForecastScoreTable(vblName, {<span class="string">'M1'</span>, <span class="string">'M2'</span>, <span class="string">'M3'</span>}, <span class="keyword">...</span>
+    forecastHorizon, scoreMethod, requestedVintage, startPeriod, <span class="keyword">...</span>
+    endPeriod, defaultModelName, [])
+</pre><pre class="codeoutput">
+scoreTable = 
+
+    ModelNames    StartPeriod    EndPeriod    ForecastHorizon    VariableName      AverageScores      nObservations    HasVariableName
+    __________    ___________    _________    _______________    ____________    _________________    _____________    _______________
+
+    M1            2000.01        2003.02      1                  'gdp'           0.527779126397047    14               true           
+    M2            2000.01        2003.02      1                  'gdp'           0.492448126087068    14               true           
+    M3            2000.01        2003.02      1                  'gdp'           0.385636498259208    14               true           
+
+</pre><h2>Evaluate point forecasts<a name="36"></a></h2><p>This produces a table with a robust DM test statistic (small sample corrected), with the default model (deafultModelName) as a benchmark:</p><pre class="codeinput">out = r3.evaluatePointForecast(vblName, scoreMethod, {<span class="string">'M1'</span>, <span class="string">'M2'</span>, <span class="string">'M3'</span>}, <span class="keyword">...</span>
+     defaultModelName, forecastHorizon, []);
+out{1}
+</pre><pre class="codeoutput">
+ans = 
+
+    modelName    DefaultModel    ForecastHorizon     DieboldMariano  
+    _________    ____________    _______________    _________________
+
+    'M2'         'M1'            1                  0.496665148008988
+    'M3'         'M1'            1                   2.28355362979974
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Making Reports Using Report Functionality
+
+%%
+% 
+% The reporting functionality works on two types of object:
+%
+% 1. Model
+%
+%  (a) estimation: Estimation
+%
+%  (b) estimation: Estimationcombination
+%
+% 2. Profor
+%
+% Prerequisite:
+%  First run proforExample.m, i.e. the Real-Time Data profor example, 
+% <matlab:edit(fullfile('proforExample.m')) matlab code>.
+%
+% See the
+% <matlab:edit(fullfile('makingReportsExample.m')) matlab code>
+% corresponding to edit and run this Using Report Functionality help file.
+%
+%
+%% Introduction
+%
+% Initialize screen output:
+
+format long
+%%
+% For an overview of the Reporting functionality, type:
+
+help Report
+
+%%
+% In general, for each of the methods of the Report class, checking the
+% help documentation tells what must be specified by the researcher.  For
+% example, to plot the density forecast fan chart, type:
+
+help Report.plotDensityForecast
+
+%% 1(a) Individual models (estimation: Estimation)
+%
+% Load an individual model for a particular data vintage (not necessarily
+% the last):
+
+m1 = Model.loado(fullfile(proforStartup.pfRoot, 'help', 'helpFiles', ...
+    'htmlexamples', '+results', 'resultsProfor', 'models', 'M2', 'results', ...
+    '2004.01_1', 'm'));
+
+%%
+% First, construct the Report object:
+
+r1 = Report(m1);
+
+%%
+% Check out the settings, to change the way things look:
+
+disp(r1)
+
+%%
+% Check the methods of the Report object:
+
+methods(r1)
+
+%% Plot point forecasts
+%
+% Plot a point forecast using 'r1.plotPointForecast' with the given variable, 
+% specifying the number of periods before the
+% evaluation period starts 'nEstimationDatesToInclude'.
+
+nEstimationDatesToInclude = 10;
+
+%%
+% Plot individual series:
+
+variableToPlot = 'gdp';
+r1.plotPointForecast( variableToPlot, nEstimationDatesToInclude)
+
+%%
+% Or plot a list of series:
+
+variableToPlot = {'gdp', 'gdpctpi'};
+r1.plotPointForecast( variableToPlot, nEstimationDatesToInclude)
+
+%% Plot density forecasts
+%
+% Density forecasts can be plotted for a given variable, displaying  
+% a number of observations prior to the forecast origin.
+%
+% Set the colour of the density map by using the 'plotOptions' settings.
+% For example, to get something similar to the Bank of England charts:
+
+r1.plotOptions.densityColor = {'r'};
+
+%%
+% To control the quantiles used in the density forecast, set the
+% option in 'Reports.plotOptions':
+
+r1.plotOptions.quantiles = [0.10; 0.30;  0.70; 0.90] .* 100;
+r1.plotDensityForecast({'gdp'}, nEstimationDatesToInclude)
+
+%%
+% For the Norges Bank style colours in the charts:
+
+r1.plotOptions.densityColor = {'f'};
+r1.plotDensityForecast({'gdp'}, nEstimationDatesToInclude)
+
+%% 1(b) Combination models (estimation: Estimationcombination)
+%
+% For a combination model:
+
+cm = Model.loado(fullfile(proforStartup.pfRoot, 'help', 'helpFiles', ...
+    'htmlexamples', '+results', 'resultsProfor', 'models', 'Combination_gdp', ...
+    'results', '2004.01_1', 'm'));
+
+%%
+% Construct a Report object with the combination model:
+
+r2 = Report(cm);
+
+%%
+% Plot the point and density forecasts in the same manner as for
+% individual models. Note, this uses the new Report object 'r2', which
+% refers to the combined forecast.
+
+r2.plotPointForecast( {'gdp'}, nEstimationDatesToInclude)
+r2.plotDensityForecast({'gdp'}, nEstimationDatesToInclude)
+
+%% Plot the weights and scores
+%
+% Using 'plotWeightsorScores', choose the weights (or scores), the model
+% names and the forecast horizons:
+
+forecastHorizonToPlot = 1;
+r2.plotWeightsOrScores('weights', {'M1','M2', 'M3'}, forecastHorizonToPlot)
+
+%% 2) PROFOR objects
+%
+% This works with the output from 'proforExample'. Therefore, the
+% researcher must point to the location of the batch files and results
+% folder from a PROFOR experiment:
+ 
+p                   = Profor;
+p.savePath          = fullfile(proforStartup.pfRoot, 'help', 'helpFiles', ...
+    'htmlexamples', '+results', 'resultsProfor');
+p.modelSetupPath    = fullfile(proforStartup.pfRoot, 'help', 'helpFiles', ...
+    'htmlexamples', '+batchFiles', 'batchFilesProfor');
+
+%%
+% Generate a report using:
+
+r3 = Report(p);
+
+%% Plot Total Economic Loss (TEL)
+%
+% Check the help settings for Total Economic Loss (TEL) 
+% in order to set the options for the function:
+
+help Report.plotTotalEconomicLoss
+
+%%
+% Set the inputs for the TEL plot.  The researcher selects the threshold
+% for the event of interest, the variable name, the benchmark model, the
+% models to be compared, and the forecast horizon, respectively. Note, the
+% same eventThreshold must be included in the Profor experiment before
+% generating the report REPLACE_WITH_DASH_DASH here the experiment was run with proforExample.m.
+
+eventThreshold      = 1.0;
+vblName             = 'gdp';
+defaultModelName    = 'M1';
+modelNames          = {'M1', 'M2', 'M3'};
+forecastHorizon     = 1;
+
+%%
+% Plot TEL against relative cost, R=C/L, where 0<R<1.  Note that
+% 'leftHandSide' tells PROFOR to define the event below the threshold, e.g.
+% GDP < 1.0 event. (And, rightHandSide means above the threshold e.g. GDP >
+% 1.0 event).
+%
+% TEL is plotted relative to the benchmark here.  So, a 40 on the plot
+% y-axis indicates a 60 percent improvement over the benchmark, normalized
+% to 100.
+%
+% TEL is evaluated against the last available vintage of data using the
+% real time latest available forecasts. 
+% 
+% By default, the outturns for forecast evaluations are set to the latest 
+% available vintage with the reporting functionality. 
+
+r3.plotTotalEconomicLoss(vblName, eventThreshold, {'M1', 'M2', 'M3'}, ...
+    defaultModelName, forecastHorizon, 'leftHandSide')
+
+%% Plot the probability of these events
+% 
+% Plot the time series of forecast probabilities (for the same event):
+
+r3.plotProbabilityEventThreshold(vblName, eventThreshold, {'M1', 'M2', 'M3'}, ...
+    forecastHorizon, 'leftHandSide')
+
+%% Plot the Relative Operating Characteristics (ROCs)
+% The researcher controls the plot via the same imputs as the TEL plot and the
+% probability plot (described above). The help provides a description and
+% a reference paper for ROCs:
+
+help  plotRelativeOperatingCharacteristics
+
+%%
+% 
+% A well-performing model will lie above the 45 degree line on the ROC
+% plot. To generate the ROC plot, with critical probability 0.5, run the
+% following script:
+
+r3.plotRelativeOperatingCharacteristics(vblName, eventThreshold, {'M1', 'M2', 'M3'}, ...
+    defaultModelName, forecastHorizon, 'leftHandSide')
+
+%% Real-time tables of scores or weights
+%
+% Profor can recursively evaluate the real-time models when a new data
+% vintage is released.
+% 
+% The results of this evaluation can be examined in MATLAB's table format.
+% Check the help for this method:
+
+help Report.getRealTimeTable
+ 
+%%
+%
+% To understand realTimeTableType, consider an example of a full table. 
+
+scoreMethod         = {'logScoreD'};
+outType             = 'scores';
+realTimeTableType   = 'full';
+out = r3.getRealTimeTable(vblName, {'M1'}, forecastHorizon, ...
+    scoreMethod, outType, realTimeTableType, []);
+out{1}
+
+%%
+%
+% This displays the scores of the real-time models evaluated using
+% different data vintages. Note, that the `current' data vintage never
+% includes the `current' time series observation REPLACE_WITH_DASH_DASH macro data are released
+% with a one period lag.
+
+%%
+%
+% Run the table with 'realTimeTableType   = 'full';' this delivers all NaNs
+% because of the data release lag issue.
+
+%% 
+%
+% Run this again for the weights, with equal weights for the last
+% observation (which can't be evaluated):
+
+outType             = 'weights';
+out = r3.getRealTimeTable(vblName, {'M1'}, forecastHorizon, ...
+    scoreMethod, outType, realTimeTableType, []);
+out{1}
+
+
+
+%% Produce tables for various scoring methods 
+%
+% The researcher should experiment with the tables directly. However,
+% PROFOR provides a helper method to break down the tables into different
+% chunks. Check this against the real-time table above -  the two
+% correspond.
+
+scoreMethod         = {'logScoreD'};
+requestedVintage    = 2003.04;
+startPeriod         = 2000.01;
+endPeriod           = 2003.02;
+defaultModelName    = 'M1';
+
+scoreTable = r3.getDensityForecastScoreTable(vblName, {'M1', 'M2', 'M3'}, ...
+    forecastHorizon, scoreMethod, requestedVintage, startPeriod, ...
+    endPeriod, defaultModelName, [])
+
+%% Plot the Probability Integral Transforms (PITs)
+%
+% Well-calibrated forecast densities give a uniform distribution to the
+% PITS.  A tough ask in small samples, typically. This feature of the
+% reporting functionality uses the set of first measurements for forecast
+% evaluations REPLACE_WITH_DASH_DASH the diagonal of the real-time data matrix.
+% 
+%
+% A good reference is: F. X. Diebold, T. Gunther, and A. S. Tay. Evaluating
+% density forecasts, with applications to financial risk management.
+% International Economic Review, 39:863?883, 1998. 
+
+r3.plotProbabilityIntegralTransforms(vblName, {'M1', 'M2', 'M3'}, ...
+    forecastHorizon, 'logScoreD', [])
+
+%% View the table of tests based on the PITs
+%
+% Sometimes the PITS are evaluated at the end of the evaluation period,
+% using a battery of one-shot tests.  Low probability values are bad news
+% here - meaning that the null of 'no calibration failure' can be rejected.
+% In which case, the PITS are not uniform and/or are serially corellated.
+%
+% An application of these tests is provided by 'Real-Time Inflation Forecast
+% Densities from Ensemble Phillips Curves' by Garratt, Vahey and Wakerly,
+% North American Journal of Economics and Finance, 2012.  Also, earlier
+% version is CAMA Working Paper 34/2010.
+%
+% The goodness of fit tests employed include: 1) The Likelihood Ratio (LR)
+% test proposed by Berkowitz (2001); a three degrees of freedom variant
+% with (for h=1 only) a test for independence, where under the alternative $z_{\tau}$
+% follows an AR(1) process. 2) The Anderson-Darling (AD) test for
+% uniformity, a modification of the Kolmogorov-Smirnov test, intended to
+% give more weight to the tails. 3) Following Wallis (2003), a Pearson chi-squared test 
+% ($\chi^{2}$) which divides the range of the $z_{\tau}$ into eight equiprobable
+% classes and tests for uniformity in the histogram. 4) The test for
+% independence of the PITS is a Ljung-Box (LB) test, based on (up
+% to) fourth-order autocorrelation.
+%
+% To generate a table of these PITS-based tests (with the average
+% logarithmic score also computed), using the set of first measurements for forecast
+% evaluations, run:
+
+scoreMethod         = {'logScoreD'};
+r3.getProbabilityIntegralTransformsTests(vblName, scoreMethod, {'M1', 'M2', 'M3'}, ...
+    defaultModelName, forecastHorizon, [])
+
+%% Produce MSPE for point forecasts 
+%
+% This produces the Mean Squared Prediction Error, based on the median
+% of the forecast density:
+
+scoreMethod         = {'mse'};
+scoreTable = r3.getDensityForecastScoreTable(vblName, {'M1', 'M2', 'M3'}, ...
+    forecastHorizon, scoreMethod, requestedVintage, startPeriod, ...
+    endPeriod, defaultModelName, [])
+
+
+%% Evaluate point forecasts 
+% 
+% This produces a table with a robust DM test statistic (small sample
+% corrected), with the default model (deafultModelName) as a benchmark:
+
+out = r3.evaluatePointForecast(vblName, scoreMethod, {'M1', 'M2', 'M3'}, ...
+     defaultModelName, forecastHorizon, []);
+out{1} 
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

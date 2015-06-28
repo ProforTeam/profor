@@ -1,0 +1,6 @@
+# git ignore file.
++results/*
++batchFiles/*
+
+# All temporary files.
+~*
