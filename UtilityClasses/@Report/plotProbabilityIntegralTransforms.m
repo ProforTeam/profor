@@ -44,7 +44,7 @@ function plotProbabilityIntegralTransforms(obj, vblNames, modelNames, ...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 
 %% Refactor
-realTimeTableExtractionType = 'last';
+realTimeTableExtractionType = 'lastRealTime';
 
 %% Validation
 
